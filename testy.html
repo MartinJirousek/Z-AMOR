@@ -1,67 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Tests – Anatomy and Morphology of Plants</title>
 
     <style>
         :root{
-            --green-1:#2f5839;
-            --green-2:#3e7f4f;
-            --green-3:#5ca76a;
-            --bg:#f7faf7;
-            --text:#2d2d2d;
-            --muted:#6c6c6c;
-            --card:#ffffff;
+            --green-1:#2f5839;   /* nav + titles */
+            --green-2:#3e7f4f;   /* header gradient end */
+            --green-3:#5ca76a;   /* header gradient start */
+            --bg:#f7faf7;        /* page background */
+            --text:#2d2d2d;      /* base text */
+            --muted:#6c6c6c;     /* footer text */
+            --card:#ffffff;      /* card background */
             --shadow:0 2px 10px rgba(0,0,0,0.08);
         }
 
-       ;
+        html, body { margin:0; padding:0; }
+        body {
+            font-family: "Georgia", serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+        }
+
+        /* Header with botanical image overlay */
+        .site-header {
+            position: relative;
+            color: #fff;
+            text-align: center;
+            padding: 60px 20px;
+            overflow: hidden;
+        }
+        .site-header::before {
+            content:"";
+            position:absolute; inset:0;
             background:
-                linear-gradient(135deg, rgba(92,167,106,0.85), rgba(62,127,79,0.85)),
+                linear-gradient(135deg, rgba(92,167,106,0.85) 0%, rgba(62,127,79,0.85) 100%),
                 url("assets/img/convallaria_oddenek_jas.jpg") center/cover no-repeat;
-            filter:blur(1px);
-            transform:scale(1.03);
+            filter: blur(1px);
+            transform: scale(1.03);
             z-index:-1;
         }
+        .site-title { margin:0; font-size:2.2rem; letter-spacing:.5px; }
+        .site-subtitle { margin-top:8px; font-size:1.05rem; font-weight:300; }
 
+        /* Navigation */
         nav {
-            background:var(--green-1);
-            padding:12px;
+            background: var(--green-1);
             text-align:center;
+            padding: 12px 10px;
         }
         nav a {
-            color:white;
+            color:#fff;
             text-decoration:none;
-            margin:0 16px;
+            margin: 0 16px;
             font-weight:bold;
+            font-size:1rem;
         }
-        nav a:hover { text-decoration:underline; }
+        nav a:hover { text-decoration: underline; }
 
+        /* Main card */
         main {
-            max-width:960px;
-            margin:30px auto;
-            padding:40px 30px;
-            background:white;
-            border-radius:12px;
-            box-shadow:var(--shadow);
+            max-width: 960px;
+            margin: 30px auto;
+            background: var(--card);
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
         }
+        main h2 { color: var(--green-1); margin-top:0; }
 
+        /* Grid of tests */
         .tests {
             display:grid;
-            grid-template-columns:repeat(2,1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap:16px;
             margin-top:20px;
         }
-
         .test-item {
             background:white;
             border:1px solid #e2ebe2;
             border-radius:10px;
             padding:14px 16px;
         }
-
         .test-item a {
             font-weight:bold;
             text-decoration:none;
@@ -69,14 +92,19 @@
         }
         .test-item a:hover { text-decoration:underline; }
 
+        /* Responsive */
+        @media (max-width: 720px){
+            .tests { grid-template-columns: 1fr; }
+        }
+
+        /* Footer */
         footer {
             text-align:center;
-            padding:20px;
-            color:var(--muted);
+            padding:20px 10px;
+            color: var(--muted);
             margin-top:40px;
         }
     </style>
-
 </head>
 
 <body>
@@ -87,9 +115,9 @@
 </header>
 
 <nav>
-    index.htmlHome</a>
-    materialy.htmlMaterials</a>
-    testy.htmlTests</a>
+    <a href="index.html">Home</a>
+    <a href="materialy.html">Materials</a>
+    <a href="testy.html">Tests</a>
 </nav>
 
 <main>
@@ -98,11 +126,10 @@
     <p>This page contains tests for practising each of the study topics.</p>
 
     <div class="tests">
-
-        <div class="test-item"><a href="test1.html">test1.htmlPlant Cell</a></div>
-        <div class="test-item"><a href="test2.html">test2.htmlPlant Tissues</a></div>
-        <div class="test-item"><a href="test3.html">test3.htmlPlant Meristems and Plant Growth</a></div>
-        <div class="test-item"><a href="test4.html">test4.htmlPlant Evolution and Global Diversity</a></div>
+        <div class="test-item"><a href="test1.html">Plant Cell</a></div>
+        <div class="test-item"><a href="test2.html">Plant Tissues</a></div>
+        <div class="test-item"><a href="test3.html">Plant Meristems and Plant Growth</a></div>
+        <div class="test-item"><a href="test4.html">Plant Evolution and Global Diversity</a></div>
         <div class="test-item"><a href="test5.html">Herbal and Woody Stems</a></div>
         <div class="test-item"><a href="test6.html">Roots</a></div>
         <div class="test-item"><a href="test7.html">Buds and Leaves</a></div>
@@ -111,9 +138,7 @@
         <div class="test-item"><a href="test10.html">Plant Life Cycle</a></div>
         <div class="test-item"><a href="test11.html">Monocotyledonous and Dicotyledonous Plants</a></div>
         <div class="test-item"><a href="test12.html">Cereals</a></div>
-
     </div>
-
 </main>
 
 <footer>
