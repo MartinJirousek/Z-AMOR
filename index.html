@@ -1,39 +1,90 @@
 <!DOCTYPE html>
-<html background: #2a4da3;
-            padding: 10px;
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Anatomy and Morphology of Plants</title>
+    <style>
+        :root{
+            --green-1:#2f5839;
+            --green-2:#3e7f4f;
+            --green-3:#5ca76a;
+            --bg:#f7faf7;
+            --text:#2d2d2d;
+            --muted:#6c6c6c;
+            --card:#ffffff;
+            --shadow:0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        html, body { margin:0; padding:0; }
+        body {
+            font-family: "Georgia", serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+        }
+
+        /* Botanical header */
+        .site-header {
+            position: relative;
+            color: #fff;
             text-align: center;
+            padding: 64px 20px;
+            overflow: hidden;
+        }
+        .site-header::before {
+            content:"";
+            position:absolute; inset:0;
+            background:
+                linear-gradient(135deg, rgba(92,167,106,0.85) 0%, rgba(62,127,79,0.85) 100%),
+                url("assets/img/convallaria_oddenek_jas.jpg") center/cover no-repeat;
+            filter: blur(1px);
+            transform: scale(1.03);
+            z-index:-1;
+        }
+
+        .site-title { margin:0; font-size:2.4rem; letter-spacing:.5px; }
+        .site-subtitle { margin:.5rem 0 0; font-weight:300; font-size:1.1rem; }
+
+        nav {
+            background: var(--green-1);
+            text-align:center;
+            padding: 12px 10px;
         }
         nav a {
-            color: white;
-            margin: 0 15px;
-            text-decoration: none;
-            font-weight: bold;
+            color:#fff;
+            text-decoration:none;
+            margin: 0 16px;
+            font-weight:700;
+            font-size:1rem;
         }
-        nav a:hover {
-            text-decoration: underline;
-        }
+        nav a:hover { text-decoration: underline; }
+
         main {
-            max-width: 900px;
-            margin: auto;
-            background: white;
-            padding: 30px;
-            margin-top: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            max-width: 960px;
+            margin: 28px auto;
+            background: var(--card);
+            padding: 40px 32px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
         }
+        main h2 { color: var(--green-1); margin-top:0; font-size:1.8rem; }
+
         footer {
-            text-align: center;
-            padding: 15px;
-            margin-top: 40px;
-            color: #666;
+            text-align:center;
+            padding:20px 10px;
+            color: var(--muted);
+            font-size:.95rem;
+            margin-top:40px;
         }
     </style>
 </head>
+
 <body>
 
-<header>
-    <h1>Anatomy and Morphology of Plants</h1>
-    <h3>Educational Materials</h3>
+<header class="site-header">
+    <h1 class="site-title">Anatomy and Morphology of Plants</h1>
+    <p class="site-subtitle">Educational Materials and Resources</p>
 </header>
 
 <nav>
@@ -44,22 +95,20 @@
 
 <main>
     <h2>Welcome</h2>
-    <p>Welcome to the online resources for the course <strong>Anatomy and Morphology of Plants</strong>. 
-    This website provides learning materials that support understanding of the structure, development, and diversity of plants.</p>
 
-    <p>The content currently includes:</p>
-    <ul>
-        <li>an overview of the course and main topics,</li>
-        <li>a dedicated page with study materials and topic descriptions,</li>
-        <li>a section with online revision tests.</li>
-    </ul>
+    <p>Welcome to the online learning environment for the course 
+        <strong>Anatomy and Morphology of Plants</strong>. This website provides 
+        structured study materials focused on plant structure, development, and diversity.</p>
 
-    <p>Additional materials will be continuously added, including illustrations, images, downloadable files, and links to recommended videos. 
-    Each topic will be gradually expanded according to the content covered in lectures and practical classes.</p>
+    <p>The content currently includes a growing collection of study materials and a section 
+        with online revision tests. Additional resources — illustrations, images, downloadable 
+        files, and links to videos — will be continuously added.</p>
+
+    <p>Each topic expands in line with the lectures and practical classes presented during the course.</p>
 </main>
 
 <footer>
-    © 2026 | Z-AMOR | Martin Jiroušek
+    © 2026 · Z-AMOR · Martin Jiroušek
 </footer>
 
 </body>
