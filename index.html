@@ -70,6 +70,16 @@
         }
         main h2 { color: var(--green-1); margin-top:0; font-size:1.8rem; }
 
+        .illustration-box {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .illustration-box img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
         footer {
             text-align:center;
             padding:20px 10px;
@@ -88,9 +98,9 @@
 </header>
 
 <nav>
-    index.htmlHome</a>
-    materialy.htmlMaterials</a>
-    testy.htmlTests</a>
+    <a href="index.html">Home</a>
+    <a href="materialy.html">Materials</a>
+    <a href="testy.html">Tests</a>
 </nav>
 
 <main>
@@ -103,6 +113,11 @@
         with online revision tests.</p>
 
     <p>Each topic was created in line with the lectures and practical classes presented during the course.</p>
+
+    <!-- Visual block added (not altering any text), uses your uploaded image -->
+    <div class="illustration-box">
+        <img src="assets/img/pisum_stonek_jas.jpg" alt="Plant anatomical section">
+    </div>
 </main>
 
 <footer>
