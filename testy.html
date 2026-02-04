@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tests – Anatomy and Morphology of Plants</title>
+
+    <style>
+        :root{
+            --green-1:#2f5839;
+            --green-2:#3e7f4f;
+           ;
+            --bg:#f7faf7;
+            --text:#2d2d2d;
+            --muted:#6c6c6c;
+            --card:#ffffff;
+            --shadow:0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        body {
+            margin:0;
+            font-family: "Georgia", serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+        }
+
+        .site-header {
+            position: relative;
+            text-align:center;
+            color:white;
+            20px;
+            overflow:hidden;
+        }
+        .site-header::before {
+            content:"";
+            position:absolute; inset:0;
+            background:
+                linear-gradient(135deg, rgba(92,167,106,0.85) 0%, rgba(62,127,79,0.85) 100%),
+                url("assets/img/convallaria_oddenek_jas.jpg") center/cover no-repeat;
+            filter: blur(1px);
+            transform: scale(1.03);
+            z-index:-1;
+        }
+
+        .site-title { margin:0; font-size:2.2rem; }
+        .site-subtitle { margin-top:8px; font-size:1.05rem; font-weight:300; }
+
+        nav {
+            background:var(--green-1);
+            padding:12px;
+            text-align:center;
+        }
+        nav a {
+            color:white;
+            text-decoration:none;
+            margin:0 16px;
+            font-weight:bold;
+        }
+        nav a:hover { text-decoration:underline; }
+
+        main {
+            max-width:960px;
+            margin:30px auto;
+            padding:40px 30px;
+            background:white;
+            border-radius:12px;
+            box-shadow: var(--shadow);
+        }
+
+        main h2 { color: var(--green-1); margin-top:0; }
+
+        .tests {
+            display:grid;
+            grid-template-columns:repeat(2,1fr);
+            gap:16px;
+            margin-top:20px;
+        }
+
+        .test-item {
+            background:white;
+            border:1px solid #e2ebe2;
+            border-radius:10px;
+            padding:14px 16px;
+        }
+
+        .test-item a {
+            font-weight:bold;
+            text-decoration:none;
+            color:var(--green-1);
+        }
+        .test-item a:hover {
+            text-decoration:underline;
+        }
+
+        @media (max-width:720px){
+            .tests { grid-template-columns:1fr; }
+        }
+
+        footer {
+            text-align:center;
+            padding:20px;
+            color:var(--muted);
+            margin-top:40px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<header class="site-header">
+    <h1 class="site-title">Revision Tests</h1>
+    <p class="site-subtitle">Exercises for practising each study topic</p>
+</header>
+
+<nav>
+    index.htmlHome</a>
+    materialy.htmlMaterials</a>
+    testy.htmlTests</a>
+</nav>
+
+<main>
+    <h2>Tests</h2>
+
+    <p>This page contains tests for practising each of the study topics.</p>
+
+    <div class="tests">
+
+        <div class="test-item">
+            test1.htmlPlant Cell</a>
+        </div>
+
+        <div class="test-item">
+            test2.htmlPlant Tissues</a>
+        </div>
+
+        <div class="test-item">
+            test3.htmlPlant Meristems and Plant Growth</a>
+        </div>
+
+        <div class="test-item">
+            test4.htmlPlant Evolution and Global Diversity</a>
+        </div>
+
+        <div class="test-item">
+            test5.htmlHerbal and Woody Stems</a>
+        </div>
+
+        <div class="test-item">
+            test6.htmlRoots</a>
+        </div>
+
+        <div class="test-item">
+            test7.htmlBuds and Leaves</a>
+        </div>
+
+        <div class="test-item">
+            test8.htmlFlowers and Pollination</a>
+        </div>
+
+        <div class="test-item">
+            test9.htmlSeeds and Fruits</a>
+        </div>
+
+        <div class="test-item">
+            test10.htmlPlant Life Cycle</a>
+        </div>
+
+        <div class="test-item">
+            test11.htmlMonocotyledonous and Dicotyledonous Plants</a>
+        </div>
+
+        <div class="test-item">
+            test12.htmlCereals</a>
+        </div>
+
+    </div>
+
+</main>
+
+<footer>
+    © 2026 · Z-AMOR · Martin Jiroušek
+</footer>
+
+</body>
+</html>
