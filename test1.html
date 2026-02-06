@@ -26,7 +26,7 @@
     .site-title{margin:0;font-size:2.2rem;letter-spacing:.5px}
     .site-subtitle{margin-top:8px;font-size:1.05rem;font-weight:300}
 
-    /* Nav */
+    /* Navigation */
     nav{background:var(--green-1);text-align:center;padding:12px}
     nav a{color:#fff;text-decoration:none;margin:0 16px;font-weight:bold}
     nav a:hover{text-decoration:underline}
@@ -38,15 +38,18 @@
     .note{background:#f0f5f0;border:1px solid #dce7dc;border-radius:8px;padding:12px 14px;margin-bottom:18px}
 
     /* Quiz */
-    .question{margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid #e8efe8}
+    .question{margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid #e8efe8}
     .question:last-of-type{border-bottom:none}
-    .q-title{font-weight:bold;color:var(--green-1);margin-bottom:6px}
+    .q-title{font-weight:bold;color:var(--green-1);margin-bottom:8px}
+    .q-image{margin:8px 0 10px}
+    .q-image img{max-width:100%;border-radius:8px;box-shadow:var(--shadow)}
+
     fieldset{border:0;margin:0;padding:0}
-    .options{display:grid;grid-template-columns:1fr;gap:6px;margin-top:6px}
+    .options{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}
     .options label{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid #e8efe8;border-radius:8px;padding:10px 12px;cursor:pointer}
     .options input{margin-top:2px}
 
-    .actions{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap}
+    .actions{margin-top:22px;display:flex;gap:12px;flex-wrap:wrap}
     button{
       background:var(--green-1);color:#fff;border:none;border-radius:8px;
       padding:10px 16px;font-weight:bold;cursor:pointer
@@ -66,7 +69,8 @@
 
 <header class="site-header">
   <h1 class="site-title">Plant Cell – Test</h1>
- </header>
+  <p class="site-subtitle">Revision exercise for this topic</p>
+</header>
 
 <nav>
   <a href="index.html">Home</a>
@@ -76,66 +80,17 @@
 
 <main>
   <h2>Test</h2>
-  <p class="note">Choose the best answer for each question and then click <strong>Evaluate</strong>.</p>
+  <p class="note">Choose the best answer for each question and then click <strong>Evaluate</strong>. The order of questions and options is randomized on each page load.</p>
 
-  <form id="quiz" novalidate>
-    <!-- Q1 -->
-    <div class="question" data-correct="b">
-      <div class="q-title">1) Which organelle is primarily responsible for photosynthesis in plant cells?</div>
-      <fieldset class="options">
-        <label><input type="radio" name="q1" value="a"> Mitochondrion</label>
-        <label><input type="radio" name="q1" value="b"> Chloroplast</label>
-        <label><input type="radio" name="q1" value="c"> Nucleus</label>
-      </fieldset>
-    </div>
+  <form id="quiz" novalidate></form>
 
-    <!-- Q2 -->
-    <div class="question" data-correct="c">
-      <div class="q-title">2) The rigid outer layer that helps maintain cell shape is the…</div>
-      <fieldset class="options">
-        <label><input type="radio" name="q2" value="a"> Plasma membrane</label>
-        <label><input type="radio" name="q2" value="b"> Tonoplast</label>
-        <label><input type="radio" name="q2" value="c"> Cell wall</label>
-      </fieldset>
-    </div>
+  <div class="actions">
+    <button type="button" id="evaluate">Evaluate</button>
+    <button type="button" class="secondary" id="reshuffle">Shuffle again</button>
+    <button type="reset" class="secondary" id="clear">Clear</button>
+  </div>
 
-    <!-- Q3 -->
-    <div class="question" data-correct="a">
-      <div class="q-title">3) The large central vacuole in mature plant cells mainly functions in…</div>
-      <fieldset class="options">
-        <label><input type="radio" name="q3" value="a"> Storage and turgor maintenance</label>
-        <label><input type="radio" name="q3" value="b"> Protein synthesis</label>
-        <label><input type="radio" name="q3" value="c"> DNA replication</label>
-      </fieldset>
-    </div>
-
-    <!-- Q4 -->
-    <div class="question" data-correct="b">
-      <div class="q-title">4) Plastids that store starch in non-photosynthetic tissues are called…</div>
-      <fieldset class="options">
-        <label><input type="radio" name="q4" value="a"> Chromoplasts</label>
-        <label><input type="radio" name="q4" value="b"> Amyloplasts</label>
-        <label><input type="radio" name="q4" value="c"> Etioplasts</label>
-      </fieldset>
-    </div>
-
-    <!-- Q5 -->
-    <div class="question" data-correct="c">
-      <div class="q-title">5) Cellulose microfibrils are major components of the…</div>
-      <fieldset class="options">
-        <label><input type="radio" name="q5" value="a"> Middle lamella</label>
-        <label><input type="radio" name="q5" value="b"> Plasmodesmata</label>
-        <label><input type="radio" name="q5" value="c"> Cell wall</label>
-      </fieldset>
-    </div>
-
-    <div class="actions">
-      <button type="button" id="evaluate">Evaluate</button>
-      <button type="reset" class="secondary" id="clear">Clear</button>
-    </div>
-
-    <div id="result" class="result" role="status" aria-live="polite"></div>
-  </form>
+  <div id="result" class="result" role="status" aria-live="polite"></div>
 </main>
 
 <footer>
@@ -143,46 +98,188 @@
 </footer>
 
 <script>
-  (function(){
-    const form = document.getElementById('quiz');
-    const btnEval = document.getElementById('evaluate');
-    const result = document.getElementById('result');
+  // ---- DATA: Questions for "Plant Cell" (4 options each) ----
+  // image: optional (string path) – will render under the title if provided
+  const QUIZ_DATA = [
+    {
+      title: "Which organelle do not contain DNA in plant cells?",
+      options: [
+        { key: "A", text: "Mitochondrion" },
+        { key: "B", text: "Ribosome", correct: true },
+        { key: "C", text: "Nucleus" },
+        { key: "D", text: "Chloroplast" }
+      ],
+      // Example image (replace with your own if you wish, or remove this line):
+      image: "assets/img/pisum_stonek_jas.jpg"
+    },
+    {
+      title: "The rigid outer layer that helps maintain plant cell shape is the…",
+      options: [
+        { key: "A", text: "Plasma membrane" },
+        { key: "B", text: "Tonoplast" },
+        { key: "C", text: "Cell wall", correct: true },
+        { key: "D", text: "Microtubule" }
+      ]
+    },
+    {
+      title: "The large central vacuole in mature plant cells mainly functions in…",
+      options: [
+        { key: "A", text: "Storage and turgor maintenance", correct: true },
+        { key: "B", text: "Protein synthesis" },
+        { key: "C", text: "DNA replication" },
+        { key: "D", text: "Aerobic respiration" }
+      ]
+    },
+    {
+      title: "Plastids that store starch in plant cells are called…",
+      options: [
+        { key: "A", text: "Chromoplasts" },
+        { key: "B", text: "Amyloplasts", correct: true },
+        { key: "C", text: "Etioplasts" },
+        { key: "D", text: "Protoplasts" }
+      ],
+      // Example image (you can swap for another or remove):
+      image: "assets/img/convallaria_oddenek_jas.jpg"
+    },
+    {
+      title: "Cellulose microfibrils are major components of the…",
+      options: [
+        { key: "A", text: "Middle lamella" },
+        { key: "B", text: "Plasmodesmata" },
+        { key: "C", text: "Primary cell wall", correct: true },
+        { key: "D", text: "Cytoskeleton" }
+      ]
+    }
+  ];
 
-    function evaluate(){
-      const questions = Array.from(form.querySelectorAll('.question'));
-      let total = questions.length, score = 0, answered = 0;
+  // ---- Utility: Fisher–Yates shuffle ----
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  }
 
-      questions.forEach((q, idx) => {
-        const name = 'q' + (idx+1);
-        const correct = q.getAttribute('data-correct');
-        const selected = form.querySelector('input[name="'+name+'"]:checked');
-        if(selected){ answered++; if(selected.value === correct) score++; }
+  // ---- Render quiz with random order of questions and options ----
+  const formEl = document.getElementById('quiz');
+  let currentOrder = { questions: [], options: {} };
+
+  function renderQuiz(){
+    // Randomize questions
+    const qOrder = shuffle(QUIZ_DATA);
+    currentOrder.questions = qOrder;
+    currentOrder.options = {};
+
+    formEl.innerHTML = ""; // clear
+
+    qOrder.forEach((q, idx) => {
+      // Randomize options
+      const opts = shuffle(q.options);
+      currentOrder.options[idx] = opts;
+
+      const qId = `q${idx+1}`;
+      const qWrap = document.createElement('div');
+      qWrap.className = 'question';
+      qWrap.setAttribute('data-index', idx);
+
+      const title = document.createElement('div');
+      title.className = 'q-title';
+      title.textContent = `${idx+1}) ${q.title}`;
+      qWrap.appendChild(title);
+
+      if(q.image){
+        const imgWrap = document.createElement('div');
+        imgWrap.className = 'q-image';
+        const img = document.createElement('img');
+        img.src = q.image;
+        img.alt = "Question illustration";
+        imgWrap.appendChild(img);
+        qWrap.appendChild(imgWrap);
+      }
+
+      const field = document.createElement('fieldset');
+      field.className = 'options';
+
+      opts.forEach((opt, oi) => {
+        const id = `${qId}_opt${oi}`;
+        const label = document.createElement('label');
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = qId;
+        input.value = opt.key; // keep key for correctness check
+        input.id = id;
+
+        const txt = document.createTextNode(` ${opt.text}`);
+
+        label.setAttribute('for', id);
+        label.appendChild(input);
+        label.appendChild(txt);
+        field.appendChild(label);
       });
 
-      result.style.display = 'block';
-      const pct = Math.round((score/total)*100);
-      if(answered < total){
-        result.className = 'result warn';
-        result.textContent = `You answered ${answered}/${total} questions. Current score: ${score}/${total} (${pct}%). Please answer all questions and evaluate again.`;
-      } else if(score/total >= 0.8){
-        result.className = 'result ok';
-        result.textContent = `Great! Score: ${score}/${total} (${pct}%).`;
-      } else if(score/total >= 0.5){
-        result.className = 'result warn';
-        result.textContent = `Good attempt. Score: ${score}/${total} (${pct}%). Review the topic and try again.`;
-      } else {
-        result.className = 'result err';
-        result.textContent = `Score: ${score}/${total} (${pct}%). Consider revising the study materials.`;
-      }
-    }
-
-    btnEval.addEventListener('click', evaluate);
-    form.addEventListener('reset', () => {
-      result.style.display = 'none';
-      result.textContent = '';
-      result.className = 'result';
+      qWrap.appendChild(field);
+      formEl.appendChild(qWrap);
     });
-  })();
+  }
+
+  // ---- Evaluation ----
+  function evaluate(){
+    const questions = Array.from(formEl.querySelectorAll('.question'));
+    let total = questions.length, score = 0, answered = 0;
+
+    questions.forEach((qEl, idx) => {
+      const qId = `q${idx+1}`;
+      const selected = formEl.querySelector(`input[name="${qId}"]:checked`);
+      if(selected) {
+        answered++;
+        // find correct option key in original (but order is shuffled)
+        const originalQ = currentOrder.questions[idx];
+        const correctOpt = originalQ.options.find(o => o.correct);
+        if(selected.value === (correctOpt ? correctOpt.key : '')) {
+          score++;
+        }
+      }
+    });
+
+    const result = document.getElementById('result');
+    result.style.display = 'block';
+    const pct = Math.round((score/total)*100);
+    if(answered < total){
+      result.className = 'result warn';
+      result.textContent = `You answered ${answered}/${total}. Current score: ${score}/${total} (${pct}%). Please answer all questions and evaluate again.`;
+    } else if(score/total >= 0.8){
+      result.className = 'result ok';
+      result.textContent = `Great! Score: ${score}/${total} (${pct}%).`;
+    } else if(score/total >= 0.5){
+      result.className = 'result warn';
+      result.textContent = `Good attempt. Score: ${score}/${total} (${pct}%). Review the topic and try again.`;
+    } else {
+      result.className = 'result err';
+      result.textContent = `Score: ${score}/${total} (${pct}%). Consider revisiting the study materials.`;
+    }
+  }
+
+  // ---- Events ----
+  document.getElementById('evaluate').addEventListener('click', evaluate);
+  document.getElementById('reshuffle').addEventListener('click', () => {
+    document.getElementById('result').style.display = 'none';
+    document.getElementById('result').textContent = '';
+    document.getElementById('result').className = 'result';
+    renderQuiz();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+  document.getElementById('clear').addEventListener('click', () => {
+    const result = document.getElementById('result');
+    result.style.display = 'none';
+    result.textContent = '';
+    result.className = 'result';
+    // do not reshuffle on clear – keeps current order unless user hits "Shuffle again"
+  });
+
+  // Initial render
+  renderQuiz();
 </script>
 
 </body>
