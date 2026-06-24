@@ -98,6 +98,8 @@
 </footer>
 
 <script>
+  // HLAVNÍ POLE S OTÁZKAMI (Sem můžete v budoucnu přidávat další)
+  const QUIZ_DATA = [
     {
       title: "Which organelle do not contain DNA in plant cells?",
       options: [
@@ -160,8 +162,8 @@
   let currentOrder = { questions: [], options: {} };
 
   function renderQuiz(){
-    // Randomize questions
-    const qOrder = shuffle(QUIZ_DATA);
+    // Změna: Zamícháme všechny otázky a metodou .slice(0, 5) vybereme pouze prvních 5
+    const qOrder = shuffle(QUIZ_DATA).slice(0, 5);
     currentOrder.questions = qOrder;
     currentOrder.options = {};
 
@@ -217,63 +219,52 @@
     });
   }
 
+  // Spuštění vygenerování testu při načtení
+  renderQuiz();
+
+  // ---- Tlačítka a jejich obsluha ----
+  document.getElementById('reshuffle').addEventListener('click', renderQuiz);
+  document.getElementById('clear').addEventListener('click', () => {
+    formEl.reset();
+    document.getElementById('result').style.display = 'none';
+  });
+
+  document.getElementById('evaluate').addEventListener('click', evaluate);
+
   // ---- Evaluation ----
   function evaluate(){
     const questions = Array.from(formEl.querySelectorAll('.question'));
     let total = questions.length, score = 0, answered = 0;
+    const resultEl = document.getElementById('result');
 
     questions.forEach((qEl, idx) => {
       const qId = `q${idx+1}`;
       const selected = formEl.querySelector(`input[name="${qId}"]:checked`);
       if(selected) {
         answered++;
-        // find correct option key in original (but order is shuffled)
-        const originalQ = currentOrder.questions[idx];
-        const correctOpt = originalQ.options.find(o => o.correct);
-        if(selected.value === (correctOpt ? correctOpt.key : '')) {
+        const currentQ = currentOrder.questions[idx];
+        const correctOpt = currentQ.options.find(o => o.correct);
+        if(selected.value === correctOpt.key) {
           score++;
         }
       }
     });
 
-    const result = document.getElementById('result');
-    result.style.display = 'block';
-    const pct = Math.round((score/total)*100);
-    if(answered < total){
-      result.className = 'result warn';
-      result.textContent = `You answered ${answered}/${total}. Current score: ${score}/${total} (${pct}%). Please answer all questions and evaluate again.`;
-    } else if(score/total >= 0.8){
-      result.className = 'result ok';
-      result.textContent = `Great! Score: ${score}/${total} (${pct}%).`;
-    } else if(score/total >= 0.5){
-      result.className = 'result warn';
-      result.textContent = `Good attempt. Score: ${score}/${total} (${pct}%). Review the topic and try again.`;
+    // Zobrazení výsledků
+    resultEl.style.display = 'block';
+    resultEl.className = 'result'; // reset class
+    
+    if(score === total) {
+      resultEl.classList.add('ok');
+      resultEl.innerHTML = `<strong>Perfect!</strong> You answered all ${score}/${total} questions correctly.`;
+    } else if(score >= total / 2) {
+      resultEl.classList.add('warn');
+      resultEl.innerHTML = `<strong>Good job!</strong> You answered ${score}/${total} questions correctly.`;
     } else {
-      result.className = 'result err';
-      result.textContent = `Score: ${score}/${total} (${pct}%). Consider revisiting the study materials.`;
+      resultEl.classList.add('err');
+      resultEl.innerHTML = `<strong>Keep studying!</strong> You only answered ${score}/${total} questions correctly.`;
     }
   }
-
-  // ---- Events ----
-  document.getElementById('evaluate').addEventListener('click', evaluate);
-  document.getElementById('reshuffle').addEventListener('click', () => {
-    document.getElementById('result').style.display = 'none';
-    document.getElementById('result').textContent = '';
-    document.getElementById('result').className = 'result';
-    renderQuiz();
-    window.scrollTo({top:0, behavior:'smooth'});
-  });
-  document.getElementById('clear').addEventListener('click', () => {
-    const result = document.getElementById('result');
-    result.style.display = 'none';
-    result.textContent = '';
-    result.className = 'result';
-    // do not reshuffle on clear – keeps current order unless user hits "Shuffle again"
-  });
-
-  // Initial render
-  renderQuiz();
 </script>
-
 </body>
 </html>
