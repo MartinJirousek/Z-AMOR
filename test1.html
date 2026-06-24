@@ -137,6 +137,15 @@
       ],
     },
     {
+      title: "Plastids that store starch in plant cells are called…",
+      options: [
+        { key: "A", text: "Chromoplasts" },
+        { key: "B", text: "Amyloplasts", correct: true },
+        { key: "C", text: "Etioplasts" },
+        { key: "D", text: "Protoplasts" }
+      ],
+    },
+    {
       title: "Cellulose microfibrils are major components of the…",
       options: [
         { key: "A", text: "Middle lamella" },
@@ -162,15 +171,15 @@
   let currentOrder = { questions: [], options: {} };
 
   function renderQuiz(){
-    // Změna: Zamícháme všechny otázky a metodou .slice(0, 5) vybereme pouze prvních 5
+    // Zamícháme všechny otázky a vybereme pouze prvních 5
     const qOrder = shuffle(QUIZ_DATA).slice(0, 5);
     currentOrder.questions = qOrder;
     currentOrder.options = {};
 
-    formEl.innerHTML = ""; // clear
+    formEl.innerHTML = ""; // vyčistit
+    document.getElementById('result').style.display = 'none'; // skrýt výsledek
 
     qOrder.forEach((q, idx) => {
-      // Randomize options
       const opts = shuffle(q.options);
       currentOrder.options[idx] = opts;
 
@@ -203,7 +212,7 @@
         const input = document.createElement('input');
         input.type = 'radio';
         input.name = qId;
-        input.value = opt.key; // keep key for correctness check
+        input.value = opt.key;
         input.id = id;
 
         const txt = document.createTextNode(` ${opt.text}`);
@@ -219,7 +228,7 @@
     });
   }
 
-  // Spuštění vygenerování testu při načtení
+  // První spuštění testu při načtení
   renderQuiz();
 
   // ---- Tlačítka a jejich obsluha ----
@@ -231,7 +240,7 @@
 
   document.getElementById('evaluate').addEventListener('click', evaluate);
 
-  // ---- Evaluation ----
+  // ---- Vyhodnocení ----
   function evaluate(){
     const questions = Array.from(formEl.querySelectorAll('.question'));
     let total = questions.length, score = 0, answered = 0;
@@ -240,11 +249,14 @@
     questions.forEach((qEl, idx) => {
       const qId = `q${idx+1}`;
       const selected = formEl.querySelector(`input[name="${qId}"]:checked`);
+      
       if(selected) {
         answered++;
         const currentQ = currentOrder.questions[idx];
-        const correctOpt = currentQ.options.find(o => o.correct);
-        if(selected.value === correctOpt.key) {
+        // Opraveno: Správnou odpověď hledáme v aktuálně vyrenderovaném pořadí options
+        const correctOpt = currentOrder.options[idx].find(o => o.correct);
+        
+        if(correctOpt && selected.value === correctOpt.key) {
           score++;
         }
       }
@@ -252,7 +264,7 @@
 
     // Zobrazení výsledků
     resultEl.style.display = 'block';
-    resultEl.className = 'result'; // reset class
+    resultEl.className = 'result'; // reset třídy
     
     if(score === total) {
       resultEl.classList.add('ok');
