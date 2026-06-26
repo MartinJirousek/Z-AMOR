@@ -1,2 +1,2 @@
 # Z-AMOR
-Educational materials for the course Anatomy and Morphology of Plants
+Educational materials for the course Anatomy and Morphology of Plants.
