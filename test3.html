@@ -68,7 +68,7 @@
 <body>
 
 <header class="site-header">
-  <h1 class="site-title">Plant Tissues – Test</h1>
+  <h1 class="site-title">Plant Meristems and Plant Growth – Test</h1>
   <p class="site-subtitle">Revision exercise for this topic</p>
 </header>
 
@@ -101,57 +101,84 @@
   // HLAVNÍ POLE S OTÁZKAMI (Sem můžete v budoucnu přidávat další)
   const QUIZ_DATA = [
     {
-      title: "Which tissue is NOT present in roots?",
+      title: "What is the primary function of meristematic tissue in plants?",
       options: [
-        { key: "A", text: "Parenchyma" },
-        { key: "B", text: "Collenchyma", correct: true },
-        { key: "C", text: "Sclerenchyma" },
-        { key: "D", text: "Phloem and xylem" }
+        { key: "A", text: "Storing nutrients" },
+        { key: "B", text: "Producing new cells through cell division", correct: true },
+        { key: "C", text: "Carrying out photosynthesis" },
+        { key: "D", text: "Transporting water and minerals" }
       ],
     },
     {
-      title: "Which tissue is composed of dead cells?",
+      title: "Which type of meristem is responsible for primary growth in plants?",
       options: [
-        { key: "A", text: "Parenchyma" },
-        { key: "B", text: "Collenchyma" },
-        { key: "C", text: "Sclerenchyma", correct: true },
-        { key: "D", text: "Aerenchyma" }
+        { key: "A", text: "Lateral meristem" },
+        { key: "B", text: "Cork cambium" },
+        { key: "C", text: "Apical meristem", correct: true },
+        { key: "D", text: "Intercalary meristem" }
       ]
     },
     {
-      title: "Which tissue can never be found in plants?",
+      title: "Where are apical meristems typically located?",
       options: [
-        { key: "A", text: "Plectenchyma", correct: true },
-        { key: "B", text: "Prosenchyma" },
-        { key: "C", text: "Parenchyma" },
-        { key: "D", text: "Aerenchyma" }
+        { key: "A", text: "At the tips of roots and stems", correct: true },
+        { key: "B", text: "Only at the tips of roots" },
+        { key: "C", text: "Only at the tips of stems" },
+        { key: "D", text: "Neither in the stem nor in the root" }
       ]
     },
     {
-      title: "Which of the following is NOT a recognized type of intercellular space (intercellular) in plant tissues?",
+      title: "What is the main result of lateral meristem activity?",
       options: [
-        { key: "A", text: "Schizogenous" },
-        { key: "B", text: "Mitogenous", correct: true },
-        { key: "C", text: "Lysigenous" },
-        { key: "D", text: "Rhexigenous" }
+        { key: "A", text: "Flower formation" },
+        { key: "B", text: "Secondary growth that increases the thickness of stems and roots", correct: true },
+        { key: "C", text: "Fruit volume increasing" },
+        { key: "D", text: "Laef formation" }
       ],
     },
     {
-      title: "Which of the following is NOT a function of plant tissues?",
+      title: "Which lateral meristem produces secondary xylem and secondary phloem?",
       options: [
-        { key: "A", text: "Conducting water and nutrients" },
-        { key: "B", text: "Phagocytosis of foreign pathogens by immune cells", correct: true },
-        { key: "C", text: "Organic matter storage" },
-        { key: "D", text: "Covering and mechanical for plant protection" }
+        { key: "A", text: "Callus tissue" },
+        { key: "B", text: "Vascular cambium", correct: true },
+        { key: "C", text: "Procambium" },
+        { key: "D", text: "Cork cambium" }
       ],
     },
     {
-      title: "Which specialized plant cells make up and regulate the openings of the ventilating tissue (stomata) responsible for gas exchange?",
+      title: "Intercalary meristems are most commonly found in:",
       options: [
-        { key: "A", text: "Bulliform cells" },
-        { key: "B", text: "Plasmodesmata" },
-        { key: "C", text: "Guard cells", correct: true },
-        { key: "D", text: "Sieve tube elements and companion cells" }
+        { key: "A", text: "Conifers" },
+        { key: "B", text: "Mosses and ferns" },
+        { key: "C", text: "Grasses", correct: true },
+        { key: "D", text: "Deciduous broadleaved trees" }
+      ]
+    },
+    {
+      title: "Primary growth in plants mainly results in:",
+      options: [
+        { key: "A", text: "An increase in stem diameter" },
+        { key: "B", text: "Formation of secondary bark" },
+        { key: "C", text: "Elongation of roots and shoots", correct: true },
+        { key: "D", text: "An increase in the number of shoots and roots" }
+      ]
+      },
+    {
+      title: "Which meristem gives rise to the periderm (secondary protective tissue)?",
+      options: [
+        { key: "A", text: "Vascular cambium" },
+        { key: "B", text: "Apical cambium" },
+        { key: "C", text: "Cork cambium (phellogen)", correct: true },
+        { key: "D", text: "Procambium" }
+      ]
+    },
+    {
+      title: "Which statement best describes meristematic cells?",
+      options: [
+        { key: "A", text: "They have thick, lignified cell walls and large intercellular spaces between cells." },
+        { key: "B", text: "They are fully differentiated consisting of the dead cells lacking cytoplasm." },
+        { key: "C", text: "They are living, undifferentiated cells with dense cytoplasm and a large nucleus.", correct: true },
+        { key: "D", text: "They are living, differentiated cells with thin cell walls, one small nucleus and large central vacuoles." }
       ]
     }
   ];
