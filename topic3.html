@@ -1,1 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Anatomy and Morphology of Plants</title>
+    <style>
+        :root{
+            --green-1:#2f5839;
+            --green-2:#3e7f4f;
+            --green-3:#5ca76a;
+            --bg:#f7faf7;
+            --text:#2d2d2d;
+            --muted:#6c6c6c;
+            --card:#ffffff;
+            --shadow:0 2px 10px rgba(0,0,0,0.08);
+        }
 
+        html, body { margin:0; padding:0; }
+        body {
+            font-family: "Georgia", serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+        }
+
+        /* Botanical header */
+        .site-header {
+            position: relative;
+            color: #fff;
+            text-align: center;
+            padding: 64px 20px;
+            overflow: hidden;
+        }
+        .site-header::before {
+            content:"";
+            position:absolute; inset:0;
+            background:
+                linear-gradient(135deg, rgba(92,167,106,0.85) 0%, rgba(62,127,79,0.85) 100%),
+                url("assets/img/convallaria_oddenek_jas.jpg") center/cover no-repeat;
+            filter: blur(1px);
+            transform: scale(1.03);
+            z-index:-1;
+        }
+
+        .site-title { margin:0; font-size:2.4rem; letter-spacing:.5px; }
+        .site-subtitle { margin:.5rem 0 0; font-weight:300; font-size:1.1rem; }
+
+        nav {
+            background: var(--green-1);
+            text-align:center;
+            padding: 12px 10px;
+        }
+        nav a {
+            color:#fff;
+            text-decoration:none;
+            margin: 0 16px;
+            font-weight:700;
+            font-size:1rem;
+        }
+        nav a:hover { text-decoration: underline; }
+
+        main {
+            max-width: 960px;
+            margin: 28px auto;
+            background: var(--card);
+            padding: 40px 32px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        main h2 { color: var(--green-1); margin-top:0; font-size:1.8rem; }
+
+        .illustration-box {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .illustration-box img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        footer {
+            text-align:center;
+            padding:20px 10px;
+            color: var(--muted);
+            font-size:.95rem;
+            margin-top:40px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <h1 class="site-title">Anatomy and Morphology of Plants</h1>
+    <p class="site-subtitle">Z-AMOR</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="materialy.html">Materials</a>
+    <a href="glossary.html">Glossary</a>
+    <a href="testy.html">Tests</a>
+</nav>
+
+<main>
+    <h2>Plant Meristems and Plant Growth</h2>
+
+    <p>Plant meristems consist of specialized, undifferentiated cells that retain the lifelong ability to divide and form new tissues, serving as the primary drivers of plant growth. Unlike animals, which develop according to a fixed body plan with a predetermined size and number of organs, plants exhibit indeterminate growth and a highly plastic architecture. This means they do not have a set height, branching pattern, or fixed number of leaves and flowers; instead, their final shape is dynamically shaped by their surroundings. Because of these localized cellular reservoirs, plants can grow throughout their entire lifespan and can theoretically achieve immortality in a long-term stable environment.Apical meristems, located at the tips of roots and shoots, drive primary growth by elongating the plant body to maximize light absorption (shoot) and nutrient uptake (root). Meanwhile, lateral meristems, such as the vascular cambium, drive secondary growth by increasing the thickness and structural support of woody plants.</p>
+
+    <h3>Hormonal regulation of growth</h3>
+  
+  <p>Plant hormones act as chemical messengers that directly govern cell division and elongation within both shoot and root meristems. Auxins are primarily synthesized in young shoot tips, from where they travel downward to maintain apical dominance, but they are also produced in smaller amounts within the root tip to stimulate root growth and branching at low concentrations. Conversely, cytokinins produced in the roots travel upward to promote cell division and lateral shoot development, while gibberellins complete this cycle by driving overall stem elongation.</p>
+
+  <h3>Plant regeneration and micropropagation</h3>
+  
+  <p>Micropropagation leverages the unique ability of meristematic cells to regenerate into entirely new plants under controlled laboratory conditions. Because shoot apical meristems grow faster than viral pathogens and lack direct vascular connections, they are typically virus-free. This biotechnology allows for the mass cloning of genetically identical, disease-free crops and ornamental plants.</p>
+  
+  <div class="topics">
+    <div class="topic" style="text-align: center;">
+        
+        
+        <a class="topic-title" href="https://open.lib.umn.edu/horticulture/chapter/7-1-meristem-morphology/" target="_blank" style="display: inline-block; margin-top: 10px;">Plant meristems</a>
+    </div>
+</div>
+      
+</main>
+
+<footer>
+    © 2026 · Z-AMOR · Martin Jiroušek
+</footer>
+
+</body>
+</html>
+    
