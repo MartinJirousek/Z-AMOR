@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tests</title>
+  <title>Test – Plant Tissues</title>
   <style>
     :root{
       --green-1:#2f5839; --green-2:#3e7f4f; --green-3:#5ca76a;
@@ -153,7 +153,6 @@
       ]
     },
     {
-      // OPRAVENO: Dosazeny jednoduché uvozovky kolem slova 'sense'
       title: "Roots always grow downward toward gravity (positive gravitropism). Which specific cells contain heavy starch grains called amyloplasts (statoliths) that sink to the bottom of the cell and allow the root to 'sense' gravity?",
       options: [
         { key: "A", text: "Root hairs in the zone of maturation" },
@@ -206,7 +205,7 @@
         const input = document.createElement('input');
         input.type = 'radio';
         input.name = `question-${qIdx}`;
-        input.value = opt.text; // Budeme porovnávat podle textu odpovědi
+        input.value = opt.text;
 
         label.appendChild(input);
         label.appendChild(document.createTextNode(` ${opt.text}`));
@@ -233,7 +232,6 @@
         return;
       }
 
-      // Najdeme v původních datech, zda je text označen jako správný
       const correctOpt = q.options.find(o => o.correct);
       if (correctOpt && selectedRadio.value === correctOpt.text) {
         score++;
@@ -243,3 +241,10 @@
     if (!allAnswered) {
       resultEl.className = "result warn";
       resultEl.innerHTML = "<strong>Please answer all questions before evaluation!</strong>";
+      resultEl.style.display = "block";
+      return;
+    }
+
+    const percentage = (score / total) * 100;
+    if (percentage === 100) {
+      resultEl.className = "result ok";
