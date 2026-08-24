@@ -41,6 +41,8 @@
     .question{margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid #e8efe8}
     .question:last-of-type{border-bottom:none}
     .q-title{font-weight:bold;color:var(--green-1);margin-bottom:8px}
+    .q-image{margin:8px 0 10px}
+    .q-image img{max-width:100%;border-radius:8px;box-shadow:var(--shadow)}
 
     fieldset{border:0;margin:0;padding:0}
     .options{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}
@@ -161,7 +163,8 @@
         { key: "D", text: "Periderm cells in older roots" }
       ]
     }
-  ];
+  ]
+     };
 
   // ---- Utility: Fisher–Yates shuffle ----
   function shuffle(arr){
@@ -173,78 +176,117 @@
     return a;
   }
 
-  // ---- Globální stav pro sledování aktuálního pořadí ----
+  // ---- Render quiz with random order of questions and options ----
   const formEl = document.getElementById('quiz');
-  const resultEl = document.getElementById('result');
-  let selectedQuestions = [];
+  let currentOrder = { questions: [], options: {} };
 
   function renderQuiz(){
-    // Vybereme 5 náhodných otázek ze 7 dostupných
-    selectedQuestions = shuffle(QUIZ_DATA).slice(0, 5);
-    formEl.innerHTML = "";
-    resultEl.style.display = "none";
+    // Zamícháme všechny otázky a vybereme pouze prvních 5
+    const qOrder = shuffle(QUIZ_DATA).slice(0, 5);
+    currentOrder.questions = qOrder;
+    currentOrder.options = {};
 
-    selectedQuestions.forEach((q, qIdx) => {
-      const qDiv = document.createElement('div');
-      qDiv.className = 'question';
+    formEl.innerHTML = ""; // vyčistit
+    document.getElementById('result').style.display = 'none'; // skrýt výsledek
 
-      const titlePara = document.createElement('p');
-      titlePara.className = 'q-title';
-      titlePara.textContent = `${qIdx + 1}. ${q.title}`;
-      qDiv.appendChild(titlePara);
+    qOrder.forEach((q, idx) => {
+      const opts = shuffle(q.options);
+      currentOrder.options[idx] = opts;
 
-      const fieldset = document.createElement('fieldset');
-      const optionsDiv = document.createElement('div');
-      optionsDiv.className = 'options';
+      const qId = `q${idx+1}`;
+      const qWrap = document.createElement('div');
+      qWrap.className = 'question';
+      qWrap.setAttribute('data-index', idx);
 
-      // Zamícháme možnosti individuálně pro každou otázku
-      const shuffledOptions = shuffle(q.options);
+      const title = document.createElement('div');
+      title.className = 'q-title';
+      title.textContent = `${idx+1}) ${q.title}`;
+      qWrap.appendChild(title);
 
-      shuffledOptions.forEach((opt) => {
+      if(q.image){
+        const imgWrap = document.createElement('div');
+        imgWrap.className = 'q-image';
+        const img = document.createElement('img');
+        img.src = q.image;
+        img.alt = "Question illustration";
+        imgWrap.appendChild(img);
+        qWrap.appendChild(imgWrap);
+      }
+
+      const field = document.createElement('fieldset');
+      field.className = 'options';
+
+      opts.forEach((opt, oi) => {
+        const id = `${qId}_opt${oi}`;
         const label = document.createElement('label');
         const input = document.createElement('input');
         input.type = 'radio';
-        input.name = `question-${qIdx}`;
-        input.value = opt.text;
+        input.name = qId;
+        input.value = opt.key;
+        input.id = id;
 
+        const txt = document.createTextNode(` ${opt.text}`);
+
+        label.setAttribute('for', id);
         label.appendChild(input);
-        label.appendChild(document.createTextNode(` ${opt.text}`));
-        optionsDiv.appendChild(label);
+        label.appendChild(txt);
+        field.appendChild(label);
       });
 
-      fieldset.appendChild(optionsDiv);
-      qDiv.appendChild(fieldset);
-      formEl.appendChild(qDiv);
+      qWrap.appendChild(field);
+      formEl.appendChild(qWrap);
     });
   }
 
-  // ---- Vyhodnocení testu ----
-  document.getElementById('evaluate').addEventListener('click', () => {
-    let score = 0;
-    let total = selectedQuestions.length;
-    let allAnswered = true;
+  // První spuštění testu při načtení
+  renderQuiz();
 
-    selectedQuestions.forEach((q, qIdx) => {
-      const selectedRadio = formEl.querySelector(`input[name="question-${qIdx}"]:checked`);
+  // ---- Tlačítka a jejich obsluha ----
+  document.getElementById('reshuffle').addEventListener('click', renderQuiz);
+  document.getElementById('clear').addEventListener('click', () => {
+    formEl.reset();
+    document.getElementById('result').style.display = 'none';
+  });
+
+  document.getElementById('evaluate').addEventListener('click', evaluate);
+
+  // ---- Vyhodnocení ----
+  function evaluate(){
+    const questions = Array.from(formEl.querySelectorAll('.question'));
+    let total = questions.length, score = 0, answered = 0;
+    const resultEl = document.getElementById('result');
+
+    questions.forEach((qEl, idx) => {
+      const qId = `q${idx+1}`;
+      const selected = formEl.querySelector(`input[name="${qId}"]:checked`);
       
-      if (!selectedRadio) {
-        allAnswered = false;
-        return;
-      }
-
-      const correctOpt = q.options.find(o => o.correct);
-      if (correctOpt && selectedRadio.value === correctOpt.text) {
-        score++;
+      if(selected) {
+        answered++;
+        const currentQ = currentOrder.questions[idx];
+        // Opraveno: Správnou odpověď hledáme v aktuálně vyrenderovaném pořadí options
+        const correctOpt = currentOrder.options[idx].find(o => o.correct);
+        
+        if(correctOpt && selected.value === correctOpt.key) {
+          score++;
+        }
       }
     });
 
-    if (!allAnswered) {
-      resultEl.className = "result warn";
-      resultEl.innerHTML = "<strong>Please answer all questions before evaluation!</strong>";
-      resultEl.style.display = "block";
-      return;
+    // Zobrazení výsledků
+    resultEl.style.display = 'block';
+    resultEl.className = 'result'; // reset třídy
+    
+    if(score === total) {
+      resultEl.classList.add('ok');
+      resultEl.innerHTML = `<strong>Perfect!</strong> You answered all ${score}/${total} questions correctly.`;
+    } else if(score >= total / 2) {
+      resultEl.classList.add('warn');
+      resultEl.innerHTML = `<strong>Good job!</strong> You answered ${score}/${total} questions correctly.`;
+    } else {
+      resultEl.classList.add('err');
+      resultEl.innerHTML = `<strong>Keep studying!</strong> You only answered ${score}/${total} questions correctly.`;
     }
-
-    const percentage = (score / total) * 100;
-    if (percentage === 100) {
-      resultEl.className = "result ok";
+  }
+</script>
+</body>
+</html>
