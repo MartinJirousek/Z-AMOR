@@ -180,13 +180,12 @@
   let currentOrder = { questions: [], options: {} };
 
   function renderQuiz(){
-    // Zamícháme všechny otázky a vybereme pouze prvních 5
     const qOrder = shuffle(QUIZ_DATA).slice(0, 5);
     currentOrder.questions = qOrder;
     currentOrder.options = {};
 
-    formEl.innerHTML = ""; // vyčistit
-    document.getElementById('result').style.display = 'none'; // skrýt výsledek
+    formEl.innerHTML = "";
+    document.getElementById('result').style.display = 'none';
 
     qOrder.forEach((q, idx) => {
       const opts = shuffle(q.options);
@@ -207,85 +206,46 @@
         imgWrap.className = 'q-image';
         const img = document.createElement('img');
         img.src = q.image;
-        img.alt = "Question illustration";
+        img.alt = "Question image";
         imgWrap.appendChild(img);
         qWrap.appendChild(imgWrap);
       }
 
-      const field = document.createElement('fieldset');
-      field.className = 'options';
+      const fieldset = document.createElement('fieldset');
+      const optionsWrap = document.createElement('div');
+      optionsWrap.className = 'options';
 
-      opts.forEach((opt, oi) => {
-        const id = `${qId}_opt${oi}`;
+      opts.forEach((opt, oIdx) => {
         const label = document.createElement('label');
         const input = document.createElement('input');
-        input.type = 'radio';
+        input.type = "radio";
         input.name = qId;
-        input.value = opt.key;
-        input.id = id;
+        input.value = oIdx;
 
-        const txt = document.createTextNode(` ${opt.text}`);
-
-        label.setAttribute('for', id);
         label.appendChild(input);
-        label.appendChild(txt);
-        field.appendChild(label);
+        label.appendChild(document.createTextNode(` ${opt.text}`));
+        optionsWrap.appendChild(label);
       });
 
-      qWrap.appendChild(field);
+      fieldset.appendChild(optionsWrap);
+      qWrap.appendChild(fieldset);
       formEl.appendChild(qWrap);
     });
   }
 
-  // První spuštění testu při načtení
-  renderQuiz();
+  // ---- Evaluation ----
+  document.getElementById('evaluate').addEventListener('click', () => {
+    let score = 0;
+    const total = currentOrder.questions.length;
+    let allAnswered = true;
 
-  // ---- Tlačítka a jejich obsluha ----
-  document.getElementById('reshuffle').addEventListener('click', renderQuiz);
-  document.getElementById('clear').addEventListener('click', () => {
-    formEl.reset();
-    document.getElementById('result').style.display = 'none';
-  });
-
-  document.getElementById('evaluate').addEventListener('click', evaluate);
-
-  // ---- Vyhodnocení ----
-  function evaluate(){
-    const questions = Array.from(formEl.querySelectorAll('.question'));
-    let total = questions.length, score = 0, answered = 0;
-    const resultEl = document.getElementById('result');
-
-    questions.forEach((qEl, idx) => {
+    currentOrder.questions.forEach((q, idx) => {
       const qId = `q${idx+1}`;
       const selected = formEl.querySelector(`input[name="${qId}"]:checked`);
       
-      if(selected) {
-        answered++;
-        const currentQ = currentOrder.questions[idx];
-        // Opraveno: Správnou odpověď hledáme v aktuálně vyrenderovaném pořadí options
-        const correctOpt = currentOrder.options[idx].find(o => o.correct);
-        
-        if(correctOpt && selected.value === correctOpt.key) {
-          score++;
-        }
+      if(!selected) {
+        allAnswered = false;
+        return;
       }
-    });
 
-    // Zobrazení výsledků
-    resultEl.style.display = 'block';
-    resultEl.className = 'result'; // reset třídy
-    
-    if(score === total) {
-      resultEl.classList.add('ok');
-      resultEl.innerHTML = `<strong>Perfect!</strong> You answered all ${score}/${total} questions correctly.`;
-    } else if(score >= total / 2) {
-      resultEl.classList.add('warn');
-      resultEl.innerHTML = `<strong>Good job!</strong> You answered ${score}/${total} questions correctly.`;
-    } else {
-      resultEl.classList.add('err');
-      resultEl.innerHTML = `<strong>Keep studying!</strong> You only answered ${score}/${total} questions correctly.`;
-    }
-  }
-</script>
-</body>
-</html>
+      const optIdx = parseInt(selected.value, 10);
