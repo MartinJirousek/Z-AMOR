@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Test – Plant Tissues</title>
+  <style>
+    :root{
+      --green-1:#2f5839; --green-2:#3e7f4f; --green-3:#5ca76a;
+      --bg:#f7faf7; --text:#2d2d2d; --muted:#6c6c6c;
+      --card:#ffffff; --shadow:0 2px 10px rgba(0,0,0,0.08);
+      --ok:#1b8a5a; --warn:#b4541a; --err:#b23b3b;
+    }
+    html,body{margin:0;padding:0}
+    body{font-family:"Georgia",serif;background:var(--bg);color:var(--text);line-height:1.65}
+
+    /* Header */
+    .site-header{position:relative;color:#fff;text-align:center;padding:60px 20px;overflow:hidden}
+    .site-header::before{
+      content:"";position:absolute;inset:0;
+      background:
+        linear-gradient(135deg, rgba(92,167,106,0.85), rgba(62,127,79,0.85)),
+        url("assets/img/convallaria_oddenek_jas.jpg") center/cover no-repeat;
+      filter:blur(1px);transform:scale(1.03);z-index:-1;
+    }
+    .site-title{margin:0;font-size:2.2rem;letter-spacing:.5px}
+    .site-subtitle{margin-top:8px;font-size:1.05rem;font-weight:300}
+
+    /* Navigation */
+    nav{background:var(--green-1);text-align:center;padding:12px}
+    nav a{color:#fff;text-decoration:none;margin:0 16px;font-weight:bold}
+    nav a:hover{text-decoration:underline}
+
+    /* Main card */
+    main{max-width:960px;margin:30px auto;background:var(--card);padding:40px 30px;border-radius:12px;box-shadow:var(--shadow)}
+    main h2{color:var(--green-1);margin-top:0}
+
+    .note{background:#f0f5f0;border:1px solid #dce7dc;border-radius:8px;padding:12px 14px;margin-bottom:18px}
+
+    /* Quiz */
+    .question{margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid #e8efe8}
+    .question:last-of-type{border-bottom:none}
+    .q-title{font-weight:bold;color:var(--green-1);margin-bottom:8px}
+    .q-image{margin:8px 0 10px}
+    .q-image img{max-width:100%;border-radius:8px;box-shadow:var(--shadow)}
+
+    fieldset{border:0;margin:0;padding:0}
+    .options{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}
+    .options label{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid #e8efe8;border-radius:8px;padding:10px 12px;cursor:pointer}
+    .options input{margin-top:2px}
+
+    .actions{margin-top:22px;display:flex;gap:12px;flex-wrap:wrap}
+    button{
+      background:var(--green-1);color:#fff;border:none;border-radius:8px;
+      padding:10px 16px;font-weight:bold;cursor:pointer
+    }
+    button.secondary{background:#355}
+    button:disabled{opacity:.6;cursor:not-allowed}
+
+    .result{margin-top:18px;padding:14px 16px;border-radius:10px;display:none}
+    .result.ok{background:#e9f7f0;color:#0f5c3d;border:1px solid #cfe8dc}
+    .result.warn{background:#fff6e9;color:#7a3d0a;border:1px solid #f0e0c7}
+    .result.err{background:#fdebec;color:#7a1e23;border:1px solid #f2c6cb}
+
+    footer{text-align:center;padding:20px;color:var(--muted);margin-top:40px}
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1 class="site-title">Plant Tissues – Test</h1>
+  <p class="site-subtitle">Revision exercise for this topic</p>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="materialy.html">Materials</a>
+  <a href="testy.html">Tests</a>
+</nav>
+
+<main>
+  <h2>Test</h2>
+  <p class="note">Choose the best answer for each question and then click <strong>Evaluate</strong>. The order of questions and options is randomized on each page load.</p>
+
+  <form id="quiz" novalidate></form>
+
+  <div class="actions">
+    <button type="button" id="evaluate">Evaluate</button>
+    <button type="button" class="secondary" id="reshuffle">Shuffle again</button>
+    <button type="reset" class="secondary" id="clear">Clear</button>
+  </div>
+
+  <div id="result" class="result" role="status" aria-live="polite"></div>
+</main>
+
+<footer>
+  © 2026 · Z-AMOR · Martin Jiroušek
+</footer>
+
+<script>
+  // HLAVNÍ POLE S OTÁZKAMI (Sem můžete v budoucnu přidávat další)
+  const QUIZ_DATA = [
+    {
+      title: "Unlike stem branches which originate from superficial tissues (exogenous), lateral roots originate deep within the root from which specific tissue layer?",
+      options: [
+        { key: "A", text: "Endodermis" },
+        { key: "B", text: "Pericycle ", correct: true },
+        { key: "C", text: "Epidermis" },
+        { key: "D", text: "Vascular cambium" }
+      ],
+    },
+    {
+      title: "The Casparian strip is a suberized, waterproof band located within the cell walls of the endodermis. What is its primary physiological purpose?",
+      options: [
+        { key: "A", text: "To perform photosynthesis underground" },
+        { key: "B", text: "To produce lateral roots via mitotic division" },
+        { key: "C", text: "To force water and minerals to pass through the cell membrane (symplast) instead of around the cells (apoplast)", correct: true },
+        { key: "D", text: "To store starch grains (amyloplasts) for energy" }
+      ]
+    },
+    {
+      title: "Plants growing in waterlogged, anaerobic environments (like mangroves) develop specialized modified roots called pneumatophores. What is their primary function?",
+      options: [
+        { key: "A", text: "To grow upwards into the air to absorb atmospheric oxygen", correct: true },
+        { key: "B", text: "To absorb sunlight for underwater photosynthesis" },
+        { key: "C", text: "To strangle host plants for nutrient theft" },
+        { key: "D", text: "To function as mechanical tendrils for climbing" }
+      ]
+    },
+    {
+      title: "According to botanical terminology, an adventitious root is defined as any root that develops from:",
+      options: [
+        { key: "A", text: "The embryonic radicle during seed germination" },
+        { key: "B", text: "Non-root tissues, such as stems or leaves", correct: true },
+        { key: "C", text: "The elongation of the primary taproot" },
+        { key: "D", text: "Fungal hyphae in a mycorrhizal relationship" }
+      ],
+    },
+    {
+      title: "Root hairs significantly increase the surface area for water absorption [2.03: Root Anatomy]. From which specific cell type do root hairs develop?",
+      options: [
+        { key: "A", text: "Cortical parenchyma cells" },
+        { key: "B", text: "Modified epidermal cells", correct: true },
+        { key: "C", text: "Endodermal cells with Casparian strips" },
+        { key: "D", text: "Pericycle cells" }
+      ],
+       },
+    {
+      title: "Orchids and other epiphytic plants living high on tree branches develop aerial roots covered by a specialized, multi-layered, spongy tissue called velamen. What is its function?",
+      options: [
+        { key: "A", text: "To drill into the host tree to steal sap (parasitism)" },
+        { key: "B", text: "To rapidly absorb moisture and rainwater from the air", correct: true },
+        { key: "C", text: "To perform mechanical function" },
+        { key: "D", text: "Vegetative reproduction" }
+      ],
+    },
+    {
+      title: "Roots always grow downward toward gravity (positive gravitropism). Which specific cells contain heavy starch grains called amyloplasts (statoliths) that sink to the bottom of the cell and allow the root to "sense" gravity?",
+      options: [
+        { key: "A", text: "Root hairs in the zone of maturation" },
+        { key: "B", text: "Sieve tube members in the phloem" },
+        { key: "C", text: "Central cells of the root cap", correct: true },
+        { key: "D", text: "Periderm cells in older roots" }
+      ]
+    }
+  ];
+
+  // ---- Utility: Fisher–Yates shuffle ----
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  }
+
+  // ---- Render quiz with random order of questions and options ----
+  const formEl = document.getElementById('quiz');
+  let currentOrder = { questions: [], options: {} };
+
+  function renderQuiz(){
+    // Zamícháme všechny otázky a vybereme pouze prvních 5
+    const qOrder = shuffle(QUIZ_DATA).slice(0, 5);
+    currentOrder.questions = qOrder;
+    currentOrder.options = {};
+
+    formEl.innerHTML = ""; // vyčistit
+    document.getElementById('result').style.display = 'none'; // skrýt výsledek
+
+    qOrder.forEach((q, idx) => {
+      const opts = shuffle(q.options);
+      currentOrder.options[idx] = opts;
+
+      const qId = `q${idx+1}`;
+      const qWrap = document.createElement('div');
+      qWrap.className = 'question';
+      qWrap.setAttribute('data-index', idx);
+
+      const title = document.createElement('div');
+      title.className = 'q-title';
+      title.textContent = `${idx+1}) ${q.title}`;
+      qWrap.appendChild(title);
+
+      if(q.image){
+        const imgWrap = document.createElement('div');
+        imgWrap.className = 'q-image';
+        const img = document.createElement('img');
+        img.src = q.image;
+        img.alt = "Question illustration";
+        imgWrap.appendChild(img);
+        qWrap.appendChild(imgWrap);
+      }
+
+      const field = document.createElement('fieldset');
+      field.className = 'options';
+
+      opts.forEach((opt, oi) => {
+        const id = `${qId}_opt${oi}`;
+        const label = document.createElement('label');
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = qId;
+        input.value = opt.key;
+        input.id = id;
+
+        const txt = document.createTextNode(` ${opt.text}`);
+
+        label.setAttribute('for', id);
+        label.appendChild(input);
+        label.appendChild(txt);
+        field.appendChild(label);
+      });
+
+      qWrap.appendChild(field);
+      formEl.appendChild(qWrap);
+    });
+  }
+
+  // První spuštění testu při načtení
+  renderQuiz();
+
+  // ---- Tlačítka a jejich obsluha ----
+  document.getElementById('reshuffle').addEventListener('click', renderQuiz);
+  document.getElementById('clear').addEventListener('click', () => {
+    formEl.reset();
+    document.getElementById('result').style.display = 'none';
+  });
+
+  document.getElementById('evaluate').addEventListener('click', evaluate);
+
+  // ---- Vyhodnocení ----
+  function evaluate(){
+    const questions = Array.from(formEl.querySelectorAll('.question'));
+    let total = questions.length, score = 0, answered = 0;
+    const resultEl = document.getElementById('result');
+
+    questions.forEach((qEl, idx) => {
+      const qId = `q${idx+1}`;
+      const selected = formEl.querySelector(`input[name="${qId}"]:checked`);
+      
+      if(selected) {
+        answered++;
+        const currentQ = currentOrder.questions[idx];
+        // Opraveno: Správnou odpověď hledáme v aktuálně vyrenderovaném pořadí options
+        const correctOpt = currentOrder.options[idx].find(o => o.correct);
+        
+        if(correctOpt && selected.value === correctOpt.key) {
+          score++;
+        }
+      }
+    });
+
+    // Zobrazení výsledků
+    resultEl.style.display = 'block';
+    resultEl.className = 'result'; // reset třídy
+    
+    if(score === total) {
+      resultEl.classList.add('ok');
+      resultEl.innerHTML = `<strong>Perfect!</strong> You answered all ${score}/${total} questions correctly.`;
+    } else if(score >= total / 2) {
+      resultEl.classList.add('warn');
+      resultEl.innerHTML = `<strong>Good job!</strong> You answered ${score}/${total} questions correctly.`;
+    } else {
+      resultEl.classList.add('err');
+      resultEl.innerHTML = `<strong>Keep studying!</strong> You only answered ${score}/${total} questions correctly.`;
+    }
+  }
+</script>
+</body>
+</html>
