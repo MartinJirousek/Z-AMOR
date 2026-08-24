@@ -41,8 +41,6 @@
     .question{margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid #e8efe8}
     .question:last-of-type{border-bottom:none}
     .q-title{font-weight:bold;color:var(--green-1);margin-bottom:8px}
-    .q-image{margin:8px 0 10px}
-    .q-image img{max-width:100%;border-radius:8px;box-shadow:var(--shadow)}
 
     fieldset{border:0;margin:0;padding:0}
     .options{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}
@@ -98,16 +96,16 @@
 </footer>
 
 <script>
-  // HLAVNÍ POLE S OTÁZKAMI (Sem můžete v budoucnu přidávat další)
+  // HLAVNÍ POLE S OTÁZKAMI
   const QUIZ_DATA = [
     {
       title: "Unlike stem branches which originate from superficial tissues (exogenous), lateral roots originate deep within the root from which specific tissue layer?",
       options: [
         { key: "A", text: "Endodermis" },
-        { key: "B", text: "Pericycle ", correct: true },
+        { key: "B", text: "Pericycle", correct: true },
         { key: "C", text: "Epidermis" },
         { key: "D", text: "Vascular cambium" }
-      ],
+      ]
     },
     {
       title: "The Casparian strip is a suberized, waterproof band located within the cell walls of the endodermis. What is its primary physiological purpose?",
@@ -134,17 +132,17 @@
         { key: "B", text: "Non-root tissues, such as stems or leaves", correct: true },
         { key: "C", text: "The elongation of the primary taproot" },
         { key: "D", text: "Fungal hyphae in a mycorrhizal relationship" }
-      ],
+      ]
     },
     {
-      title: "Root hairs significantly increase the surface area for water absorption [2.03: Root Anatomy]. From which specific cell type do root hairs develop?",
+      title: "Root hairs significantly increase the surface area for water absorption. From which specific cell type do root hairs develop?",
       options: [
         { key: "A", text: "Cortical parenchyma cells" },
         { key: "B", text: "Modified epidermal cells", correct: true },
         { key: "C", text: "Endodermal cells with Casparian strips" },
         { key: "D", text: "Pericycle cells" }
-      ],
-       },
+      ]
+    },
     {
       title: "Orchids and other epiphytic plants living high on tree branches develop aerial roots covered by a specialized, multi-layered, spongy tissue called velamen. What is its function?",
       options: [
@@ -152,10 +150,11 @@
         { key: "B", text: "To rapidly absorb moisture and rainwater from the air", correct: true },
         { key: "C", text: "To perform mechanical function" },
         { key: "D", text: "Vegetative reproduction" }
-      ],
+      ]
     },
     {
-      title: "Roots always grow downward toward gravity (positive gravitropism). Which specific cells contain heavy starch grains called amyloplasts (statoliths) that sink to the bottom of the cell and allow the root to "sense" gravity?",
+      // OPRAVENO: Dosazeny jednoduché uvozovky kolem slova 'sense'
+      title: "Roots always grow downward toward gravity (positive gravitropism). Which specific cells contain heavy starch grains called amyloplasts (statoliths) that sink to the bottom of the cell and allow the root to 'sense' gravity?",
       options: [
         { key: "A", text: "Root hairs in the zone of maturation" },
         { key: "B", text: "Sieve tube members in the phloem" },
@@ -175,117 +174,72 @@
     return a;
   }
 
-  // ---- Render quiz with random order of questions and options ----
+  // ---- Globální stav pro sledování aktuálního pořadí ----
   const formEl = document.getElementById('quiz');
-  let currentOrder = { questions: [], options: {} };
+  const resultEl = document.getElementById('result');
+  let selectedQuestions = [];
 
   function renderQuiz(){
-    // Zamícháme všechny otázky a vybereme pouze prvních 5
-    const qOrder = shuffle(QUIZ_DATA).slice(0, 5);
-    currentOrder.questions = qOrder;
-    currentOrder.options = {};
+    // Vybereme 5 náhodných otázek ze 7 dostupných
+    selectedQuestions = shuffle(QUIZ_DATA).slice(0, 5);
+    formEl.innerHTML = "";
+    resultEl.style.display = "none";
 
-    formEl.innerHTML = ""; // vyčistit
-    document.getElementById('result').style.display = 'none'; // skrýt výsledek
+    selectedQuestions.forEach((q, qIdx) => {
+      const qDiv = document.createElement('div');
+      qDiv.className = 'question';
 
-    qOrder.forEach((q, idx) => {
-      const opts = shuffle(q.options);
-      currentOrder.options[idx] = opts;
+      const titlePara = document.createElement('p');
+      titlePara.className = 'q-title';
+      titlePara.textContent = `${qIdx + 1}. ${q.title}`;
+      qDiv.appendChild(titlePara);
 
-      const qId = `q${idx+1}`;
-      const qWrap = document.createElement('div');
-      qWrap.className = 'question';
-      qWrap.setAttribute('data-index', idx);
+      const fieldset = document.createElement('fieldset');
+      const optionsDiv = document.createElement('div');
+      optionsDiv.className = 'options';
 
-      const title = document.createElement('div');
-      title.className = 'q-title';
-      title.textContent = `${idx+1}) ${q.title}`;
-      qWrap.appendChild(title);
+      // Zamícháme možnosti individuálně pro každou otázku
+      const shuffledOptions = shuffle(q.options);
 
-      if(q.image){
-        const imgWrap = document.createElement('div');
-        imgWrap.className = 'q-image';
-        const img = document.createElement('img');
-        img.src = q.image;
-        img.alt = "Question illustration";
-        imgWrap.appendChild(img);
-        qWrap.appendChild(imgWrap);
-      }
-
-      const field = document.createElement('fieldset');
-      field.className = 'options';
-
-      opts.forEach((opt, oi) => {
-        const id = `${qId}_opt${oi}`;
+      shuffledOptions.forEach((opt) => {
         const label = document.createElement('label');
         const input = document.createElement('input');
         input.type = 'radio';
-        input.name = qId;
-        input.value = opt.key;
-        input.id = id;
+        input.name = `question-${qIdx}`;
+        input.value = opt.text; // Budeme porovnávat podle textu odpovědi
 
-        const txt = document.createTextNode(` ${opt.text}`);
-
-        label.setAttribute('for', id);
         label.appendChild(input);
-        label.appendChild(txt);
-        field.appendChild(label);
+        label.appendChild(document.createTextNode(` ${opt.text}`));
+        optionsDiv.appendChild(label);
       });
 
-      qWrap.appendChild(field);
-      formEl.appendChild(qWrap);
+      fieldset.appendChild(optionsDiv);
+      qDiv.appendChild(fieldset);
+      formEl.appendChild(qDiv);
     });
   }
 
-  // První spuštění testu při načtení
-  renderQuiz();
+  // ---- Vyhodnocení testu ----
+  document.getElementById('evaluate').addEventListener('click', () => {
+    let score = 0;
+    let total = selectedQuestions.length;
+    let allAnswered = true;
 
-  // ---- Tlačítka a jejich obsluha ----
-  document.getElementById('reshuffle').addEventListener('click', renderQuiz);
-  document.getElementById('clear').addEventListener('click', () => {
-    formEl.reset();
-    document.getElementById('result').style.display = 'none';
-  });
-
-  document.getElementById('evaluate').addEventListener('click', evaluate);
-
-  // ---- Vyhodnocení ----
-  function evaluate(){
-    const questions = Array.from(formEl.querySelectorAll('.question'));
-    let total = questions.length, score = 0, answered = 0;
-    const resultEl = document.getElementById('result');
-
-    questions.forEach((qEl, idx) => {
-      const qId = `q${idx+1}`;
-      const selected = formEl.querySelector(`input[name="${qId}"]:checked`);
+    selectedQuestions.forEach((q, qIdx) => {
+      const selectedRadio = formEl.querySelector(`input[name="question-${qIdx}"]:checked`);
       
-      if(selected) {
-        answered++;
-        const currentQ = currentOrder.questions[idx];
-        // Opraveno: Správnou odpověď hledáme v aktuálně vyrenderovaném pořadí options
-        const correctOpt = currentOrder.options[idx].find(o => o.correct);
-        
-        if(correctOpt && selected.value === correctOpt.key) {
-          score++;
-        }
+      if (!selectedRadio) {
+        allAnswered = false;
+        return;
+      }
+
+      // Najdeme v původních datech, zda je text označen jako správný
+      const correctOpt = q.options.find(o => o.correct);
+      if (correctOpt && selectedRadio.value === correctOpt.text) {
+        score++;
       }
     });
 
-    // Zobrazení výsledků
-    resultEl.style.display = 'block';
-    resultEl.className = 'result'; // reset třídy
-    
-    if(score === total) {
-      resultEl.classList.add('ok');
-      resultEl.innerHTML = `<strong>Perfect!</strong> You answered all ${score}/${total} questions correctly.`;
-    } else if(score >= total / 2) {
-      resultEl.classList.add('warn');
-      resultEl.innerHTML = `<strong>Good job!</strong> You answered ${score}/${total} questions correctly.`;
-    } else {
-      resultEl.classList.add('err');
-      resultEl.innerHTML = `<strong>Keep studying!</strong> You only answered ${score}/${total} questions correctly.`;
-    }
-  }
-</script>
-</body>
-</html>
+    if (!allAnswered) {
+      resultEl.className = "result warn";
+      resultEl.innerHTML = "<strong>Please answer all questions before evaluation!</strong>";
