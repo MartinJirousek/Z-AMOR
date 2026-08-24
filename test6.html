@@ -175,77 +175,122 @@
     return a;
   }
 
-  // ---- Render quiz with random order of questions and options ----
+    // ---- Render quiz with random order of questions and options ----
   const formEl = document.getElementById('quiz');
   let currentOrder = { questions: [], options: {} };
 
   function renderQuiz(){
+    // Zamícháme všechny otázky a vybereme pouze prvních 5
     const qOrder = shuffle(QUIZ_DATA).slice(0, 5);
     currentOrder.questions = qOrder;
     currentOrder.options = {};
 
-    formEl.innerHTML = "";
-    document.getElementById('result').style.display = 'none';
+    formEl.innerHTML = ""; // vyčistit formulář
+    document.getElementById('result').style.display = 'none'; // skrýt předchozí výsledek
 
     qOrder.forEach((q, idx) => {
       const opts = shuffle(q.options);
       currentOrder.options[idx] = opts;
 
-      const qId = `q${idx+1}`;
       const qWrap = document.createElement('div');
       qWrap.className = 'question';
       qWrap.setAttribute('data-index', idx);
 
       const title = document.createElement('div');
       title.className = 'q-title';
-      title.textContent = `${idx+1}) ${q.title}`;
+      title.textContent = `${idx + 1}) ${q.title}`;
       qWrap.appendChild(title);
 
-      if(q.image){
+      // Pokud by otázka obsahovala obrázek
+      if (q.image) {
         const imgWrap = document.createElement('div');
         imgWrap.className = 'q-image';
         const img = document.createElement('img');
         img.src = q.image;
-        img.alt = "Question image";
         imgWrap.appendChild(img);
         qWrap.appendChild(imgWrap);
       }
 
-      const fieldset = document.createElement('fieldset');
+      // Vykreslení možností
       const optionsWrap = document.createElement('div');
       optionsWrap.className = 'options';
 
       opts.forEach((opt, oIdx) => {
         const label = document.createElement('label');
         const input = document.createElement('input');
-        input.type = "radio";
-        input.name = qId;
+        input.type = 'radio';
+        input.name = `question_${idx}`;
         input.value = oIdx;
 
+        const textSpan = document.createElement('span');
+        textSpan.textContent = `${opt.key}) ${opt.text}`;
+
         label.appendChild(input);
-        label.appendChild(document.createTextNode(` ${opt.text}`));
+        label.appendChild(textSpan);
         optionsWrap.appendChild(label);
       });
 
-      fieldset.appendChild(optionsWrap);
-      qWrap.appendChild(fieldset);
+      qWrap.appendChild(optionsWrap);
       formEl.appendChild(qWrap);
     });
   }
 
-  // ---- Evaluation ----
+  // ---- Vyhodnocení testu ----
   document.getElementById('evaluate').addEventListener('click', () => {
-    let score = 0;
-    const total = currentOrder.questions.length;
+    let correctCount = 0;
+    const totalQuestions = currentOrder.questions.length;
     let allAnswered = true;
 
     currentOrder.questions.forEach((q, idx) => {
-      const qId = `q${idx+1}`;
-      const selected = formEl.querySelector(`input[name="${qId}"]:checked`);
+      const selectedInput = formEl.querySelector(`input[name="question_${idx}"]:checked`);
       
-      if(!selected) {
+      if (!selectedInput) {
         allAnswered = false;
         return;
       }
+      
+      const selectedOptIdx = parseInt(selectedInput.value, 10);
+      const selectedOpt = currentOrder.options[idx][selectedOptIdx];
 
-      const optIdx = parseInt(selected.value, 10);
+      if (selectedOpt && selectedOpt.correct) {
+        correctCount++;
+      }
+    });
+
+    if (!allAnswered) {
+      alert("Please answer all questions before evaluating.");
+      return;
+    }
+
+    const resultEl = document.getElementById('result');
+    resultEl.style.display = 'block';
+    resultEl.className = 'result'; // reset tříd
+
+    const scorePercent = (correctCount / totalQuestions) * 100;
+    
+    if (scorePercent === 100) {
+      resultEl.classList.add('ok');
+      resultEl.innerHTML = `<strong>Perfect!</strong> You got all ${correctCount} of ${totalQuestions} questions right!`;
+    } else if (scorePercent >= 60) {
+      resultEl.classList.add('warn');
+      resultEl.innerHTML = `<strong>Good effort!</strong> You got ${correctCount} out of ${totalQuestions} questions right.`;
+    } else {
+      resultEl.classList.add('err');
+      resultEl.innerHTML = `<strong>Keep practicing!</strong> You only got ${correctCount} out of ${totalQuestions} questions right.`;
+    }
+  });
+
+  // ---- Tlačítko pro opětovné zamíchání ----
+  document.getElementById('reshuffle').addEventListener('click', renderQuiz);
+
+  // ---- Tlačítko pro vyčištění voleb ----
+  document.getElementById('clear').addEventListener('click', () => {
+    formEl.reset();
+    document.getElementById('result').style.display = 'none';
+  });
+
+  // Prvotní vygenerování kvízu při načtení stránky
+  renderQuiz();
+</script>
+</body>
+</html>
