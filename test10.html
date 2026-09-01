@@ -1,1 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tests</title>
+  <style>
+    :root{
+      --green-1:#2f5839; --green-2:#3e7f4f; --green-3:#5ca76a;
+      --bg:#f7faf7; --text:#2d2d2d; --muted:#6c6c6c;
+      --card:#ffffff; --shadow:0 2px 10px rgba(0,0,0,0.08);
+      --ok:#1b8a5a; --warn:#b4541a; --err:#b23b3b;
+    }
+    html,body{margin:0;padding:0}
+    body{font-family:"Georgia",serif;background:var(--bg);color:var(--text);line-height:1.65}
 
+    /* Header */
+    .site-header{position:relative;color:#fff;text-align:center;padding:60px 20px;overflow:hidden}
+    .site-header::before{
+      content:"";position:absolute;inset:0;
+      background:
+        linear-gradient(135deg, rgba(92,167,106,0.85), rgba(62,127,79,0.85)),
+        url("assets/img/convallaria_oddenek_jas.jpg") center/cover no-repeat;
+      filter:blur(1px);transform:scale(1.03);z-index:-1;
+    }
+    .site-title{margin:0;font-size:2.2rem;letter-spacing:.5px}
+    .site-subtitle{margin-top:8px;font-size:1.05rem;font-weight:300}
+
+    /* Navigation */
+    nav{background:var(--green-1);text-align:center;padding:12px}
+    nav a{color:#fff;text-decoration:none;margin:0 16px;font-weight:bold}
+    nav a:hover{text-decoration:underline}
+
+    /* Main card */
+    main{max-width:960px;margin:30px auto;background:var(--card);padding:40px 30px;border-radius:12px;box-shadow:var(--shadow)}
+    main h2{color:var(--green-1);margin-top:0}
+
+    .note{background:#f0f5f0;border:1px solid #dce7dc;border-radius:8px;padding:12px 14px;margin-bottom:18px}
+
+    /* Quiz */
+    .question{margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid #e8efe8}
+    .question:last-of-type{border-bottom:none}
+    .q-title{font-weight:bold;color:var(--green-1);margin-bottom:8px}
+    .q-image{margin:8px 0 10px}
+    .q-image img{max-width:100%;border-radius:8px;box-shadow:var(--shadow)}
+
+    fieldset{border:0;margin:0;padding:0}
+    .options{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}
+    .options label{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid #e8efe8;border-radius:8px;padding:10px 12px;cursor:pointer}
+    .options input{margin-top:2px}
+
+    .actions{margin-top:22px;display:flex;gap:12px;flex-wrap:wrap}
+    button{
+      background:var(--green-1);color:#fff;border:none;border-radius:8px;
+      padding:10px 16px;font-weight:bold;cursor:pointer
+    }
+    button.secondary{background:#355}
+    button:disabled{opacity:.6;cursor:not-allowed}
+
+    .result{margin-top:18px;padding:14px 16px;border-radius:10px;display:none}
+    .result.ok{background:#e9f7f0;color:#0f5c3d;border:1px solid #cfe8dc}
+    .result.warn{background:#fff6e9;color:#7a3d0a;border:1px solid #f0e0c7}
+    .result.err{background:#fdebec;color:#7a1e23;border:1px solid #f2c6cb}
+
+    footer{text-align:center;padding:20px;color:var(--muted);margin-top:40px}
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1 class="site-title">Tests</h1>
+  <p class="site-subtitle">Revision exercise for this topic</p>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="materialy.html">Materials</a>
+  <a href="testy.html">Tests</a>
+</nav>
+
+<main>
+  <h2>Test</h2>
+  <p class="note">Choose the best answer for each question and then click <strong>Evaluate</strong>. The order of questions and options is randomized on each page load.</p>
+
+  <form id="quiz" novalidate></form>
+
+  <div class="actions">
+    <button type="button" id="evaluate">Evaluate</button>
+    <button type="button" class="secondary" id="reshuffle">Shuffle again</button>
+    <button type="reset" class="secondary" id="clear">Clear</button>
+  </div>
+
+  <div id="result" class="result" role="status" aria-live="polite"></div>
+</main>
+
+<footer>
+  © 2026 · Z-AMOR · Martin Jiroušek
+</footer>
+
+<script>
+  // HLAVNÍ POLE S OTÁZKAMI (Sem můžete v budoucnu přidávat další)
+  const QUIZ_DATA = [
+    {
+      title: "What is meant by alternation of generations in plants?",
+      options: [
+        { key: "A", text: "Alternation between vegetative and generative generations" },
+        { key: "B", text: "Alternation between multicellular haploid and multicellular diploid generations", correct: true },
+        { key: "C", text: "Alternation between annual and perennial life cycles" },
+        { key: "D", text: "Alternation between unicellular and multicellular generations" }
+      ],
+    },
+
+{
+  title: "Which sequence correctly describes the basic plant life cycle?",
+  options: [
+    { key: "A", text: "Gamete → spore → sporophyte → gametophyte → zygote" },
+    { key: "B", text: "Spore → gametophyte → gametes → zygote → sporophyte → spores", correct: true },
+    { key: "C", text: "Zygote → gamete → gametophyte → sporophyte → spore" },
+    { key: "D", text: "Spore → sporophyte → gametes → gametophyte → zygote" }
+  ],
+},
+
+{
+  title: "What is the immediate product of the fusion of male and female gametes?",
+  options: [
+    { key: "A", text: "A haploid spore" },
+    { key: "B", text: "A diploid zygote", correct: true },
+    { key: "C", text: "A mature gametophyte with gametangia" },
+    { key: "D", text: "A sporangium" }
+  ],
+},
+
+{
+  title: "What is the principal role of meiosis in the sporophyte?",
+  options: [
+    { key: "A", text: "To produce genetically identical diploid cells" },
+    { key: "B", text: "To produce haploid spores", correct: true },
+    { key: "C", text: "To produce diploid gametes" },
+    { key: "D", text: "To develop the embryo" }
+  ],
+},
+
+{
+  title: "What distinguishes the sporophyte from the gametophyte?",
+  options: [
+    { key: "A", text: "The sporophyte is multicellular and haploid, whereas the gametophyte is diploid" },
+    { key: "B", text: "The sporophyte produces gametes directly by meiosis" },
+    { key: "C", text: "The sporophyte is multicellular and diploid, whereas the gametophyte is multicellular and haploid", correct: true },
+    { key: "D", text: "The sporophyte develops directly from a haploid spore" }
+  ],
+},
+
+{
+  title: "A plant produces flowers only after receiving appropriate environmental and internal signals. What does this illustrate?",
+  options: [
+    { key: "A", text: "A transition from the vegetative phase to the reproductive phase", correct: true },
+    { key: "B", text: "A transition from diploidy to haploidy" },
+    { key: "C", text: "The production of spores by meiosis" },
+    { key: "D", text: "The formation of the gametophyte from a zygote" }
+  ],
+},
+{
+  title: "Which structure is directly associated with the production of spores?",
+  options: [
+    { key: "A", text: "Sporangium", correct: true },
+    { key: "B", text: "Zygote" },
+    { key: "C", text: "Gamete" },
+    { key: "D", text: "Embryo" }
+  ],
+},
+{
+  title: "Which statement correctly compares annual, biennial, and perennial plants?",
+  options: [
+    { key: "A", text: "The categories describe the number of times a plant can reproduce during its life" },
+    { key: "B", text: "The categories describe the typical duration of the plant's life cycle", correct: true },
+    { key: "C", text: "The categories describe the chromosome number of the plant" },
+    { key: "D", text: "The categories describe the size of the sporophyte" }
+  ],
+},
+{
+  title: "A plant grows vegetatively during its first year and flowers and produces seeds during its second year, after which it dies. Which life-history category best describes it?",
+  options: [
+    { key: "A", text: "Annual" },
+    { key: "B", text: "Biennial", correct: true },
+    { key: "C", text: "Monocarpic perennial" },
+    { key: "D", text: "Polycarpic perennial" }
+  ],
+},
+{
+  title: "Which statement best describes a perennial plant?",
+  options: [
+    { key: "A", text: "It must reproduce only once" },
+    { key: "B", text: "It necessarily completes its life cycle within one growing season" },
+    { key: "C", text: "It survives for multiple years", correct: true },
+    { key: "D", text: "It always requires two years before reproduction" }
+  ],
+},
+{
+  title: "What is the key difference between monocarpic and polycarpic plants?",
+  options: [
+    { key: "A", text: "Monocarpic plants are haploid, whereas polycarpic plants are diploid" },
+    { key: "B", text: "Monocarpic plants reproduce only once, whereas polycarpic plants can reproduce repeatedly", correct: true },
+    { key: "C", text: "Monocarpic plants produce spores, whereas polycarpic plants produce gametes" },
+    { key: "D", text: "Monocarpic plants are annuals, whereas polycarpic plants are always perennials" }
+  ],
+},
+{
+  title: "Which combination is biologically possible?",
+  options: [
+    { key: "A", text: "Annual and polycarpic" },
+    { key: "B", text: "Perennial and monocarpic", correct: true },
+    { key: "C", text: "Biennial and polycarpic" },
+    { key: "D", text: "No combination is correct" }
+  ],
+},
+
+  ];
+
+  // ---- Utility: Fisher–Yates shuffle ----
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  }
+
+  // ---- Render quiz with random order of questions and options ----
+  const formEl = document.getElementById('quiz');
+  let currentOrder = { questions: [], options: {} };
+
+  function renderQuiz(){
+    // Zamícháme všechny otázky a vybereme pouze prvních 5
+    const qOrder = shuffle(QUIZ_DATA).slice(0, 5);
+    currentOrder.questions = qOrder;
+    currentOrder.options = {};
+
+    formEl.innerHTML = ""; // vyčistit
+    document.getElementById('result').style.display = 'none'; // skrýt výsledek
+
+    qOrder.forEach((q, idx) => {
+      const opts = shuffle(q.options);
+      currentOrder.options[idx] = opts;
+
+      const qId = `q${idx+1}`;
+      const qWrap = document.createElement('div');
+      qWrap.className = 'question';
+      qWrap.setAttribute('data-index', idx);
+
+      const title = document.createElement('div');
+      title.className = 'q-title';
+      title.textContent = `${idx+1}) ${q.title}`;
+      qWrap.appendChild(title);
+
+      if(q.image){
+        const imgWrap = document.createElement('div');
+        imgWrap.className = 'q-image';
+        const img = document.createElement('img');
+        img.src = q.image;
+        img.alt = "Question illustration";
+        imgWrap.appendChild(img);
+        qWrap.appendChild(imgWrap);
+      }
+
+      const field = document.createElement('fieldset');
+      field.className = 'options';
+
+      opts.forEach((opt, oi) => {
+        const id = `${qId}_opt${oi}`;
+        const label = document.createElement('label');
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = qId;
+        input.value = opt.key;
+        input.id = id;
+
+        const txt = document.createTextNode(` ${opt.text}`);
+
+        label.setAttribute('for', id);
+        label.appendChild(input);
+        label.appendChild(txt);
+        field.appendChild(label);
+      });
+
+      qWrap.appendChild(field);
+      formEl.appendChild(qWrap);
+    });
+  }
+
+  // První spuštění testu při načtení
+  renderQuiz();
+
+  // ---- Tlačítka a jejich obsluha ----
+  document.getElementById('reshuffle').addEventListener('click', renderQuiz);
+  document.getElementById('clear').addEventListener('click', () => {
+    formEl.reset();
+    document.getElementById('result').style.display = 'none';
+  });
+
+  document.getElementById('evaluate').addEventListener('click', evaluate);
+
+  // ---- Vyhodnocení ----
+  function evaluate(){
+    const questions = Array.from(formEl.querySelectorAll('.question'));
+    let total = questions.length, score = 0, answered = 0;
+    const resultEl = document.getElementById('result');
+
+    questions.forEach((qEl, idx) => {
+      const qId = `q${idx+1}`;
+      const selected = formEl.querySelector(`input[name="${qId}"]:checked`);
+      
+      if(selected) {
+        answered++;
+        const currentQ = currentOrder.questions[idx];
+        // Opraveno: Správnou odpověď hledáme v aktuálně vyrenderovaném pořadí options
+        const correctOpt = currentOrder.options[idx].find(o => o.correct);
+        
+        if(correctOpt && selected.value === correctOpt.key) {
+          score++;
+        }
+      }
+    });
+
+    // Zobrazení výsledků
+    resultEl.style.display = 'block';
+    resultEl.className = 'result'; // reset třídy
+    
+    if(score === total) {
+      resultEl.classList.add('ok');
+      resultEl.innerHTML = `<strong>Perfect!</strong> You answered all ${score}/${total} questions correctly.`;
+    } else if(score >= total / 2) {
+      resultEl.classList.add('warn');
+      resultEl.innerHTML = `<strong>Good job!</strong> You answered ${score}/${total} questions correctly.`;
+    } else {
+      resultEl.classList.add('err');
+      resultEl.innerHTML = `<strong>Keep studying!</strong> You only answered ${score}/${total} questions correctly.`;
+    }
+  }
+</script>
+</body>
+</html>
