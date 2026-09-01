@@ -1,1 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tests</title>
+  <style>
+    :root{
+      --green-1:#2f5839; --green-2:#3e7f4f; --green-3:#5ca76a;
+      --bg:#f7faf7; --text:#2d2d2d; --muted:#6c6c6c;
+      --card:#ffffff; --shadow:0 2px 10px rgba(0,0,0,0.08);
+      --ok:#1b8a5a; --warn:#b4541a; --err:#b23b3b;
+    }
+    html,body{margin:0;padding:0}
+    body{font-family:"Georgia",serif;background:var(--bg);color:var(--text);line-height:1.65}
 
+    /* Header */
+    .site-header{position:relative;color:#fff;text-align:center;padding:60px 20px;overflow:hidden}
+    .site-header::before{
+      content:"";position:absolute;inset:0;
+      background:
+        linear-gradient(135deg, rgba(92,167,106,0.85), rgba(62,127,79,0.85)),
+        url("assets/img/convallaria_oddenek_jas.jpg") center/cover no-repeat;
+      filter:blur(1px);transform:scale(1.03);z-index:-1;
+    }
+    .site-title{margin:0;font-size:2.2rem;letter-spacing:.5px}
+    .site-subtitle{margin-top:8px;font-size:1.05rem;font-weight:300}
+
+    /* Navigation */
+    nav{background:var(--green-1);text-align:center;padding:12px}
+    nav a{color:#fff;text-decoration:none;margin:0 16px;font-weight:bold}
+    nav a:hover{text-decoration:underline}
+
+    /* Main card */
+    main{max-width:960px;margin:30px auto;background:var(--card);padding:40px 30px;border-radius:12px;box-shadow:var(--shadow)}
+    main h2{color:var(--green-1);margin-top:0}
+
+    .note{background:#f0f5f0;border:1px solid #dce7dc;border-radius:8px;padding:12px 14px;margin-bottom:18px}
+
+    /* Quiz */
+    .question{margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid #e8efe8}
+    .question:last-of-type{border-bottom:none}
+    .q-title{font-weight:bold;color:var(--green-1);margin-bottom:8px}
+    .q-image{margin:8px 0 10px}
+    .q-image img{max-width:100%;border-radius:8px;box-shadow:var(--shadow)}
+
+    fieldset{border:0;margin:0;padding:0}
+    .options{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}
+    .options label{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid #e8efe8;border-radius:8px;padding:10px 12px;cursor:pointer}
+    .options input{margin-top:2px}
+
+    .actions{margin-top:22px;display:flex;gap:12px;flex-wrap:wrap}
+    button{
+      background:var(--green-1);color:#fff;border:none;border-radius:8px;
+      padding:10px 16px;font-weight:bold;cursor:pointer
+    }
+    button.secondary{background:#355}
+    button:disabled{opacity:.6;cursor:not-allowed}
+
+    .result{margin-top:18px;padding:14px 16px;border-radius:10px;display:none}
+    .result.ok{background:#e9f7f0;color:#0f5c3d;border:1px solid #cfe8dc}
+    .result.warn{background:#fff6e9;color:#7a3d0a;border:1px solid #f0e0c7}
+    .result.err{background:#fdebec;color:#7a1e23;border:1px solid #f2c6cb}
+
+    footer{text-align:center;padding:20px;color:var(--muted);margin-top:40px}
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1 class="site-title">Tests</h1>
+  <p class="site-subtitle">Revision exercise for this topic</p>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="materialy.html">Materials</a>
+  <a href="testy.html">Tests</a>
+</nav>
+
+<main>
+  <h2>Test</h2>
+  <p class="note">Choose the best answer for each question and then click <strong>Evaluate</strong>. The order of questions and options is randomized on each page load.</p>
+
+  <form id="quiz" novalidate></form>
+
+  <div class="actions">
+    <button type="button" id="evaluate">Evaluate</button>
+    <button type="button" class="secondary" id="reshuffle">Shuffle again</button>
+    <button type="reset" class="secondary" id="clear">Clear</button>
+  </div>
+
+  <div id="result" class="result" role="status" aria-live="polite"></div>
+</main>
+
+<footer>
+  © 2026 · Z-AMOR · Martin Jiroušek
+</footer>
+
+<script>
+  // HLAVNÍ POLE S OTÁZKAMI (Sem můžete v budoucnu přidávat další)
+  const QUIZ_DATA = [
+    {
+      title: "If a single individual plant species bears separate male flowers and separate female flowers on the same plant, the species is termed:",
+      options: [
+        { key: "A", text: "Dioecious" },
+        { key: "B", text: "Monoecious", correct: true },
+        { key: "C", text: "Trioecious" },
+        { key: "D", text: "Hermaphroditic" }
+      ],
+    },
+
+{
+  title: "Choose the main difference between monocots and dicots in the traditional classification of angiosperms?",
+  options: [
+    { key: "A", text: "Monocots are non-flowering plants, whereas dicots are flowering plants" },
+    { key: "B", text: "Monocots form a monophyletic group, whereas traditional dicots represent a paraphyletic group", correct: true },
+    { key: "C", text: "Monocots are always annual, whereas dicots are always perennial" },
+    { key: "D", text: "Monocots reproduce by spores, whereas dicots reproduce by seeds" }
+  ],
+},
+{
+  title: "Which agricultural crop group is represented primarily by monocotyledonous plants?",
+  options: [
+    { key: "A", text: "Onion family", correct: true },
+    { key: "B", text: "Pea family" },
+    { key: "C", text: "Cabbage family" },
+    { key: "D", text: "Carrot family" }
+  ],
+},
+  {
+  title: "Which family is especially important in agriculture because of its association with nitrogen-fixing bacteria?",
+  options: [
+    { key: "A", text: "Asteraceae" },
+    { key: "B", text: "Fabaceae", correct: true },
+    { key: "C", text: "Solanaceae" },
+    { key: "D", text: "Papaveraceae" }
+  ],
+},
+
+    {
+  title: "Which feature is characteristic of Brassicaceae and helps distinguish it from many other agricultural families?",
+  options: [
+    { key: "A", text: "A flower with four free petals arranged in a cross shape; fruit is a silique or a silicle", correct: true },
+    { key: "B", text: "A strongly zygomorphic butterfly-shaped flower; fruit is a pod" },
+    { key: "C", text: "A compound umbel with an inferior ovary; fruit is an achene" },
+    { key: "D", text: "A four-angled stem with a bilabiate corolla; fruit are 4 nutlets" }
+  ],
+},
+{
+  title: "Which family includes important fruit crops such as apples, pears, cherries, peaches, and strawberries?",
+  options: [
+    { key: "A", text: "Rosaceae", correct: true },
+    { key: "B", text: "Solanaceae" },
+    { key: "C", text: "Apiaceae" },
+    { key: "D", text: "Cannabaceae" }
+  ],
+},
+
+    {
+  title: "Which family includes potato, tomato, pepper, and eggplant?",
+  options: [
+    { key: "A", text: "Solanaceae", correct: true },
+    { key: "B", text: "Brassicaceae" },
+    { key: "C", text: "Fabaceae" },
+    { key: "D", text: "Rosaceae" }
+  ],
+},
+
+    {
+  title: "Which family is strongly associated with culinary and medicinal herbs containing volatile essential oils?",
+  options: [
+    { key: "A", text: "Lamiaceae", correct: true },
+    { key: "B", text: "Fabaceae" },
+    { key: "C", text: "Brassicaceae" },
+    { key: "D", text: "Papaveraceae" }
+  ],
+},
+
+    {
+  title: "Which statement best illustrates why plant family recognition can be useful in agriculture?",
+  options: [
+    { key: "A", text: "Family-level characteristics can help relate plant morphology, chemistry, and economically important uses", correct: true },
+    { key: "B", text: "Family classification determines the exact yield of every crop" },
+    { key: "C", text: "All members of a family have identical agricultural uses" },
+    { key: "D", text: "Family classification is unrelated to plant morphology or crop use" }
+  ],
+},
+
+    {
+  title: "Which difference in leaf venation is commonly associated with monocots and eudicots?",
+  options: [
+    { key: "A", text: "Monocots typically have parallel venation, whereas eudicots commonly have net-like venation", correct: true },
+    { key: "B", text: "Monocots always have net-like venation, whereas eudicots always have parallel venation" },
+    { key: "C", text: "Both groups always have identical venation patterns" },
+    { key: "D", text: "Leaf venation occurs only in eudicots" }
+  ],
+},
+    {
+  title: "Which root-system pattern is commonly associated with monocots?",
+  options: [
+    { key: "A", text: "A dominant primary taproot that persists throughout the plant's life" },
+    { key: "B", text: "A fibrous or adventitious root system", correct: true },
+    { key: "C", text: "A complete absence of roots" },
+    { key: "D", text: "Only aerial roots produced from leaves" }
+  ],
+},
+    {
+  title: "Which root-system pattern is commonly associated with eudicots?",
+  options: [
+    { key: "A", text: "A dominant primary root often forming a taproot system", correct: true },
+    { key: "B", text: "A root system consisting exclusively of adventitious roots" },
+    { key: "C", text: "A complete absence of a primary root" },
+    { key: "D", text: "Roots developing only from the stem nodes" }
+  ],
+},
+    {
+  title: "Why can secondary growth be much more extensive in many eudicots than in typical monocots?",
+  options: [
+    { key: "A", text: "Many eudicots possess a vascular cambium capable of producing secondary tissues", correct: true },
+    { key: "B", text: "Monocots lack any vascular tissue" },
+    { key: "C", text: "Eudicots do not contain primary meristems" },
+    { key: "D", text: "Secondary growth is caused by meiosis" }
+  ],
+},
+    {
+  title: "Which floral pattern is commonly associated with monocotyledonous plants?",
+  options: [
+    { key: "A", text: "Floral organs commonly occur in multiples of three", correct: true },
+    { key: "B", text: "Floral organs commonly contain two or more pistils" },
+    { key: "C", text: "Flowers commonly lack a perianth" },
+    { key: "D", text: "Flowers commonly contain only two stamens" }
+  ],
+},
+    {
+  title: "Which combination of characteristics provides the strongest evidence that an unknown plant is a monocot?",
+  options: [
+    { key: "A", text: "Two cotyledons, taproot, net venation, and vascular bundles in a ring" },
+    { key: "B", text: "One cotyledon, parallel venation, scattered vascular bundles, and floral parts often in threes", correct: true },
+    { key: "C", text: "Two cotyledons, parallel venation, and flowers always in fives" },
+    { key: "D", text: "One cotyledon, taproot, net venation, and vascular bundles in a ring" }
+  ],
+},
+    {
+  title: "Which combination of characteristics is most typical of a eudicot?",
+  options: [
+    { key: "A", text: "One cotyledon, parallel venation, scattered vascular bundles, and floral parts in threes" },
+    { key: "B", text: "Two cotyledons, net-like venation, vascular bundles commonly arranged in a ring, and floral parts often in fours or fives", correct: true },
+    { key: "C", text: "One cotyledon, fibrous roots, and flowers only in threes" },
+    { key: "D", text: "No cotyledons, no vascular bundles, and no flowers" }
+  ],
+},
+    {
+  title: "Which pair of plant families is more closely related according to modern angiosperm phylogeny?",
+  options: [
+    { key: "A", text: "Rosaceae and Cannabaceae", correct: true },
+    { key: "B", text: "Apiaceae and Poaceae" },
+    { key: "C", text: "Solanaceae and Papaveraceae" },
+    { key: "D", text: "Asteraceae and Lamiaceae" }
+  ],
+},
+{
+  title: "What does it mean when two plant families are described as closely related?",
+  options: [
+    { key: "A", text: "They must have identical morphology" },
+    { key: "B", text: "They share a relatively recent common evolutionary ancestor", correct: true },
+    { key: "C", text: "They must have the same agricultural uses" },
+    { key: "D", text: "They must belong to the same genus" }
+  ],
+},
+    {
+  title: "Which agricultural crop is especially important in Czechia as a brewing crop (beer production)?",
+  options: [
+    { key: "A", text: "Hop (Humulus lupulus)", correct: true },
+    { key: "B", text: "Poppy (Papaver somniferum)" },
+    { key: "C", text: "Corn (Zea mays)" },
+    { key: "D", text: "Sunflower (Helianthus annuus" }
+  ],
+},
+    {
+  title: "What is the primary agricultural significance of hop (Humulus lupulus) cultivation?",
+  options: [
+    { key: "A", text: "Its cones provide bitter and aromatic compounds important for brewing", correct: true },
+    { key: "B", text: "Its roots fix atmospheric nitrogen" },
+    { key: "C", text: "Its seeds are the main source of cereal flour" },
+    { key: "D", text: "Its leaves are primarily used as a vegetable crop" }
+  ],
+},
+
+{
+  title: "Why can poppy (Papaver somniferum) be cultivated as an important food crop in Czechia despite the presence of opiates and other alkaloids in the species?",
+  options: [
+    { key: "A", text: "Cultivars grown in Czechia have been long-term breeded and selected to have extremely low, nearly zero concentrations of alkaloids in their seeds", correct: true },
+    { key: "B", text: "All poppy plants naturally lack alkaloids when grown in conditions of the Central Europe" },
+    { key: "C", text: "Alkaloids are completely removed from the seeds during the subsequent processing" },
+    { key: "D", text: "Poppy plants cultivated for food in Czechia are genetically modified (GMO)" }
+  ],
+},    
+    
+    
+  ];
+
+  // ---- Utility: Fisher–Yates shuffle ----
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  }
+
+  // ---- Render quiz with random order of questions and options ----
+  const formEl = document.getElementById('quiz');
+  let currentOrder = { questions: [], options: {} };
+
+  function renderQuiz(){
+    // Zamícháme všechny otázky a vybereme pouze prvních 5
+    const qOrder = shuffle(QUIZ_DATA).slice(0, 5);
+    currentOrder.questions = qOrder;
+    currentOrder.options = {};
+
+    formEl.innerHTML = ""; // vyčistit
+    document.getElementById('result').style.display = 'none'; // skrýt výsledek
+
+    qOrder.forEach((q, idx) => {
+      const opts = shuffle(q.options);
+      currentOrder.options[idx] = opts;
+
+      const qId = `q${idx+1}`;
+      const qWrap = document.createElement('div');
+      qWrap.className = 'question';
+      qWrap.setAttribute('data-index', idx);
+
+      const title = document.createElement('div');
+      title.className = 'q-title';
+      title.textContent = `${idx+1}) ${q.title}`;
+      qWrap.appendChild(title);
+
+      if(q.image){
+        const imgWrap = document.createElement('div');
+        imgWrap.className = 'q-image';
+        const img = document.createElement('img');
+        img.src = q.image;
+        img.alt = "Question illustration";
+        imgWrap.appendChild(img);
+        qWrap.appendChild(imgWrap);
+      }
+
+      const field = document.createElement('fieldset');
+      field.className = 'options';
+
+      opts.forEach((opt, oi) => {
+        const id = `${qId}_opt${oi}`;
+        const label = document.createElement('label');
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = qId;
+        input.value = opt.key;
+        input.id = id;
+
+        const txt = document.createTextNode(` ${opt.text}`);
+
+        label.setAttribute('for', id);
+        label.appendChild(input);
+        label.appendChild(txt);
+        field.appendChild(label);
+      });
+
+      qWrap.appendChild(field);
+      formEl.appendChild(qWrap);
+    });
+  }
+
+  // První spuštění testu při načtení
+  renderQuiz();
+
+  // ---- Tlačítka a jejich obsluha ----
+  document.getElementById('reshuffle').addEventListener('click', renderQuiz);
+  document.getElementById('clear').addEventListener('click', () => {
+    formEl.reset();
+    document.getElementById('result').style.display = 'none';
+  });
+
+  document.getElementById('evaluate').addEventListener('click', evaluate);
+
+  // ---- Vyhodnocení ----
+  function evaluate(){
+    const questions = Array.from(formEl.querySelectorAll('.question'));
+    let total = questions.length, score = 0, answered = 0;
+    const resultEl = document.getElementById('result');
+
+    questions.forEach((qEl, idx) => {
+      const qId = `q${idx+1}`;
+      const selected = formEl.querySelector(`input[name="${qId}"]:checked`);
+      
+      if(selected) {
+        answered++;
+        const currentQ = currentOrder.questions[idx];
+        // Opraveno: Správnou odpověď hledáme v aktuálně vyrenderovaném pořadí options
+        const correctOpt = currentOrder.options[idx].find(o => o.correct);
+        
+        if(correctOpt && selected.value === correctOpt.key) {
+          score++;
+        }
+      }
+    });
+
+    // Zobrazení výsledků
+    resultEl.style.display = 'block';
+    resultEl.className = 'result'; // reset třídy
+    
+    if(score === total) {
+      resultEl.classList.add('ok');
+      resultEl.innerHTML = `<strong>Perfect!</strong> You answered all ${score}/${total} questions correctly.`;
+    } else if(score >= total / 2) {
+      resultEl.classList.add('warn');
+      resultEl.innerHTML = `<strong>Good job!</strong> You answered ${score}/${total} questions correctly.`;
+    } else {
+      resultEl.classList.add('err');
+      resultEl.innerHTML = `<strong>Keep studying!</strong> You only answered ${score}/${total} questions correctly.`;
+    }
+  }
+</script>
+</body>
+</html>
