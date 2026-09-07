@@ -7,17 +7,19 @@
 
 <title>Z-AMOR | Anatomy and Morphology of Plants</title>
 
-<link rel="preconnect" href="https://fonts.gstatic.com
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@700&displaye>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+
+<style>
 
 :root{
     --dark:#163a24;
     --green:#2f7d46;
     --green-light:#4ca867;
     --accent:#7bd28e;
-    --bg:#f4f9f4;
-    --white:#ffffff;
+    --bg:#f5faf6;
     --text:#2b2b2b;
 }
 
@@ -34,44 +36,40 @@ body{
     overflow-x:hidden;
 }
 
-/* HERO */
-
 .hero{
     position:relative;
     min-height:100vh;
+
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
+
     text-align:center;
 
     background:
-    linear-gradient(
-        rgba(15,40,25,.55),
-        rgba(15,40,25,.75)
-    ),
-    url("assets/img/convallaria_oddenek_jas.jpg");
+        linear-gradient(rgba(15,40,25,.55),rgba(15,40,25,.75)),
+        url("assets/img/convallaria_oddenek_jas.jpg");
 
     background-size:cover;
     background-position:center;
-    background-attachment:fixed;
 }
-
-/* NAVIGATION */
 
 nav{
     position:absolute;
     top:0;
     left:0;
+
     width:100%;
-    padding:25px 60px;
+
+    padding:25px 50px;
 
     display:flex;
     justify-content:space-between;
     align-items:center;
 
+    background:rgba(0,0,0,0.15);
     backdrop-filter:blur(8px);
-    background:rgba(0,0,0,0.12);
 }
 
 .logo{
@@ -84,40 +82,34 @@ nav{
 .nav-links a{
     color:white;
     text-decoration:none;
-    margin-left:30px;
+    margin-left:25px;
     font-weight:600;
-    transition:.3s;
 }
 
 .nav-links a:hover{
     color:var(--accent);
 }
 
-/* HERO CONTENT */
-
 .hero-content{
     max-width:900px;
-    color:white;
     padding:20px;
+    color:white;
 }
 
 .hero-content h1{
     font-family:'Merriweather',serif;
-    font-size:4.5rem;
-    line-height:1.2;
+    font-size:4rem;
     margin-bottom:25px;
 }
 
 .hero-content p{
     font-size:1.3rem;
     line-height:1.8;
-    margin-bottom:40px;
-    opacity:.95;
+    margin-bottom:35px;
 }
 
 .btn{
     display:inline-block;
-    text-decoration:none;
 
     background:var(--green-light);
     color:white;
@@ -125,18 +117,16 @@ nav{
     padding:18px 40px;
 
     border-radius:50px;
-
+    text-decoration:none;
     font-weight:700;
 
-    transition:.3s;
+    transition:0.3s;
 }
 
 .btn:hover{
-    transform:translateY(-4px);
-    background:#66b97d;
+    background:#67bc7e;
+    transform:translateY(-3px);
 }
-
-/* MAIN CONTENT */
 
 main{
     max-width:1200px;
@@ -144,41 +134,38 @@ main{
     padding:80px 25px;
 }
 
-/* SECTION TITLE */
-
 .section-title{
     text-align:center;
     margin-bottom:60px;
 }
 
 .section-title h2{
-    font-size:2.4rem;
+    font-size:2.2rem;
     color:var(--dark);
     margin-bottom:15px;
 }
 
 .section-title p{
-    max-width:700px;
-    margin:auto;
     color:#666;
 }
 
-/* CARDS */
-
 .cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
     gap:30px;
 }
 
 .card{
     background:white;
-    border-radius:24px;
-    padding:35px;
-    box-shadow:
-    0 10px 30px rgba(0,0,0,.08);
 
-    transition:.3s;
+    padding:35px;
+
+    border-radius:25px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.08);
+
+    transition:0.3s;
 }
 
 .card:hover{
@@ -196,31 +183,31 @@ main{
 }
 
 .card p{
-    color:#666;
     line-height:1.7;
+    color:#666;
 }
 
 .card a{
     display:inline-block;
     margin-top:20px;
 
-    color:var(--green);
     text-decoration:none;
+
+    color:var(--green);
     font-weight:700;
 }
 
-/* ABOUT */
-
 .about{
-    margin-top:100px;
+    margin-top:80px;
 
     background:white;
-    border-radius:30px;
 
     padding:60px;
 
+    border-radius:25px;
+
     box-shadow:
-    0 10px 30px rgba(0,0,0,.07);
+        0 10px 30px rgba(0,0,0,.08);
 }
 
 .about h2{
@@ -230,38 +217,23 @@ main{
 
 .about p{
     line-height:1.9;
-    font-size:1.05rem;
 }
-
-/* FOOTER */
 
 footer{
-    margin-top:80px;
-    padding:30px;
-
     text-align:center;
-
+    padding:30px;
     color:#777;
-
-    border-top:1px solid #dddddd;
 }
-
-/* RESPONSIVE */
 
 @media(max-width:768px){
 
     nav{
         flex-direction:column;
         gap:15px;
-        padding:20px;
-    }
-
-    .nav-links a{
-        margin:0 10px;
     }
 
     .hero-content h1{
-        font-size:2.8rem;
+        font-size:2.5rem;
     }
 
     .hero-content p{
@@ -298,9 +270,8 @@ footer{
 
     <p>
         Interactive educational materials focused on plant anatomy,
-        morphology, taxonomy, reproduction and evolution.
-        Designed for university students of biology, botany
-        and related disciplines.
+        morphology, taxonomy, reproduction, evolution and classification
+        of vascular plants.
     </p>
 
     <a href="materialy.html" class="btn">
@@ -317,8 +288,7 @@ footer{
     <h2>Explore the Course</h2>
 
     <p>
-        Comprehensive learning resources prepared for students
-        of plant sciences.
+        University-level materials for students of botany and biology.
     </p>
 </div>
 
@@ -329,4 +299,66 @@ footer{
 
         <h3>Study Materials</h3>
 
-        
+        <p>
+            Detailed chapters covering plant anatomy,
+            morphology, tissues, organs, seeds, fruits and cereals.
+        </p>
+
+        <a href="materialy.html">
+            Open materials →
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-icon">📖</div>
+
+        <h3>Glossary</h3>
+
+        <p>
+            Botanical terminology with definitions,
+            explanations and illustrations.
+        </p>
+
+        <a href="glossary.html">
+            Open glossary →
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-icon">🧪</div>
+
+        <h3>Tests</h3>
+
+        <p>
+            Revision quizzes and self-assessment questions
+            for exam preparation.
+        </p>
+
+        <a href="testy.html">
+            Open tests →
+        </a>
+    </div>
+
+</section>
+
+<section class="about">
+
+    <h2>About Z-AMOR</h2>
+
+    <p>
+        Z-AMOR is an educational website designed for students taking the
+        course Anatomy and Morphology of Plants. The project combines
+        structured study materials, a botanical glossary, illustrations,
+        and revision tests into a single modern learning environment.
+    </p>
+
+</section>
+
+</main>
+
+<footer>
+    © 2026 · Z-AMOR · Martin Jiroušek
+</footer>
+
+</body>
+</html>
