@@ -1,58 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Z-AMOR | Anatomy and Morphology of Plants</title>
+
+<link rel="preconnect" href="https://fonts.gstatic.com
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@700&displaye>
+
+:root{
+    --dark:#163a24;
+    --green:#2f7d46;
+    --green-light:#4ca867;
+    --accent:#7bd28e;
+    --bg:#f4f9f4;
+    --white:#ffffff;
+    --text:#2b2b2b;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+}
+
+/* HERO */
+
+.hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+
+    background:
+    linear-gradient(
+        rgba(15,40,25,.55),
+        rgba(15,40,25,.75)
+    ),
+    url("assets/img/convallaria_oddenek_jas.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+}
+
+/* NAVIGATION */
+
+nav{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    padding:25px 60px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    backdrop-filter:blur(8px);
+    background:rgba(0,0,0,0.12);
+}
+
+.logo{
+    color:white;
+    font-size:1.4rem;
+    font-weight:700;
+    letter-spacing:3px;
+}
+
+.nav-links a{
+    color:white;
+    text-decoration:none;
+    margin-left:30px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:var(--accent);
+}
+
+/* HERO CONTENT */
+
+.hero-content{
+    max-width:900px;
+    color:white;
+    padding:20px;
+}
+
+.hero-content h1{
+    font-family:'Merriweather',serif;
+    font-size:4.5rem;
+    line-height:1.2;
+    margin-bottom:25px;
+}
+
+.hero-content p{
+    font-size:1.3rem;
+    line-height:1.8;
+    margin-bottom:40px;
+    opacity:.95;
+}
+
+.btn{
+    display:inline-block;
+    text-decoration:none;
+
+    background:var(--green-light);
+    color:white;
+
+    padding:18px 40px;
+
+    border-radius:50px;
+
+    font-weight:700;
+
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-4px);
+    background:#66b97d;
+}
+
+/* MAIN CONTENT */
+
+main{
+    max-width:1200px;
+    margin:auto;
+    padding:80px 25px;
+}
+
+/* SECTION TITLE */
+
+.section-title{
+    text-align:center;
+    margin-bottom:60px;
+}
+
+.section-title h2{
+    font-size:2.4rem;
+    color:var(--dark);
+    margin-bottom:15px;
+}
+
+.section-title p{
+    max-width:700px;
+    margin:auto;
+    color:#666;
+}
+
+/* CARDS */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+}
+
+.card{
+    background:white;
+    border-radius:24px;
+    padding:35px;
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.08);
+
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card-icon{
+    font-size:3rem;
+    margin-bottom:20px;
+}
+
+.card h3{
+    color:var(--dark);
+    margin-bottom:15px;
+}
+
+.card p{
+    color:#666;
+    line-height:1.7;
+}
+
+.card a{
+    display:inline-block;
+    margin-top:20px;
+
+    color:var(--green);
+    text-decoration:none;
+    font-weight:700;
+}
+
+/* ABOUT */
+
+.about{
+    margin-top:100px;
+
+    background:white;
+    border-radius:30px;
+
+    padding:60px;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.07);
+}
+
+.about h2{
+    color:var(--dark);
+    margin-bottom:20px;
+}
+
+.about p{
+    line-height:1.9;
+    font-size:1.05rem;
+}
+
+/* FOOTER */
+
+footer{
+    margin-top:80px;
+    padding:30px;
+
+    text-align:center;
+
+    color:#777;
+
+    border-top:1px solid #dddddd;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+    nav{
+        flex-direction:column;
+        gap:15px;
+        padding:20px;
+    }
+
+    .nav-links a{
+        margin:0 10px;
+    }
+
+    .hero-content h1{
+        font-size:2.8rem;
+    }
+
+    .hero-content p{
+        font-size:1.1rem;
+    }
+
+    .about{
+        padding:35px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
 <header class="hero">
-    <div class="hero-overlay"></div>
 
-    <nav class="top-nav">
-        <div class="logo">Z-AMOR</div>
+<nav>
+    <div class="logo">Z-AMOR</div>
 
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="materialy.html">Materials</a>
-            <a href="glossary.html">Glossary</a>
-            <a href="testy.html">Tests</a>
-        </div>
-    </nav>
-
-    <div class="hero-content">
-        <h1>Anatomy and Morphology of Plants</h1>
-
-        <p>
-            Interactive study materials, botanical glossary,
-            illustrations and revision tests for university students.
-        </p>
-
-        <a href="materialy.html" class="btn">
-            Start Learning
-        </a>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="materialy.html">Materials</a>
+        <a href="glossary.html">Glossary</a>
+        <a href="testy.html">Tests</a>
     </div>
+</nav>
+
+<div class="hero-content">
+
+    <h1>Anatomy and Morphology of Plants</h1>
+
+    <p>
+        Interactive educational materials focused on plant anatomy,
+        morphology, taxonomy, reproduction and evolution.
+        Designed for university students of biology, botany
+        and related disciplines.
+    </p>
+
+    <a href="materialy.html" class="btn">
+        Start Learning
+    </a>
+
+</div>
+
 </header>
+
+<main>
+
+<div class="section-title">
+    <h2>Explore the Course</h2>
+
+    <p>
+        Comprehensive learning resources prepared for students
+        of plant sciences.
+    </p>
+</div>
 
 <section class="cards">
 
     <div class="card">
-        <div class="icon">🌿</div>
+        <div class="card-icon">🌿</div>
+
         <h3>Study Materials</h3>
-        <p>
-            Detailed chapters covering anatomy, morphology,
-            taxonomy and reproduction of plants.
-        </p>
-    </div>
 
-    <div class="card">
-        <div class="icon">📖</div>
-        <h3>Glossary</h3>
-        <p>
-            Botanical terminology explained with illustrations
-            and examples.
-        </p>
-    </div>
-
-    <div class="card">
-        <div class="icon">🧪</div>
-        <h3>Revision Tests</h3>
-        <p>
-            Interactive quizzes helping students prepare
-            for examinations.
-        </p>
-    </div>
-
-</section>
+        
