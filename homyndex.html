@@ -1,22 +1,593 @@
-.logo-area {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 42px;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    margin-top: 42px;
-    padding: 10px 0 0;
-}
+    <title>Anatomy and Morphology of Plants</title>
 
-.logo-area img {
-    display: block;
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-    height: 150px;
-    width: auto;
-    max-width: 42%;
+        html {
+            scroll-behavior: smooth;
+        }
 
-    object-fit: contain;
+        body {
+            margin: 0;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
 
-    filter:
-        drop-shadow(0 12px 18px rgba(20, 65, 40, 0.16));
-}
+            color: #173b2a;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #edf6ef 0%,
+                    #f7faf7 55%,
+                    #e7f0e9 100%
+                );
+
+            min-height: 100vh;
+        }
+
+
+        /* =========================
+           HERO
+           ========================= */
+
+        .hero {
+            position: relative;
+
+            min-height: 620px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            overflow: hidden;
+            isolation: isolate;
+
+            padding: 40px 24px 55px;
+        }
+
+        .hero-photo {
+            position: absolute;
+            inset: 0;
+
+            z-index: -3;
+
+            background-image:
+                url("pictures/IMG_0660.JPG");
+
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+
+            transform: scale(1.015);
+        }
+
+        .hero-gradient {
+            position: absolute;
+            inset: 0;
+
+            z-index: -2;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(224, 239, 229, 0.82) 0%,
+                    rgba(190, 218, 200, 0.62) 34%,
+                    rgba(108, 157, 126, 0.48) 68%,
+                    rgba(42, 94, 66, 0.60) 100%
+                );
+        }
+
+        .hero::after {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+
+            z-index: -1;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(255,255,255,0.10) 0%,
+                    rgba(255,255,255,0.00) 55%,
+                    rgba(13,54,34,0.15) 100%
+                );
+
+            pointer-events: none;
+        }
+
+
+        /* =========================
+           NAVIGATION
+           ========================= */
+
+        .nav {
+            position: absolute;
+
+            top: 24px;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            flex-wrap: nowrap;
+
+            gap: 14px;
+
+            width: min(760px, calc(100% - 32px));
+
+            padding: 9px 14px;
+
+            background: rgba(255, 255, 255, 0.84);
+
+            border: 1px solid rgba(255, 255, 255, 0.75);
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 12px 35px rgba(20, 70, 43, 0.18);
+
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .nav a {
+            display: block;
+
+            flex: 1;
+
+            padding: 11px 24px;
+
+            color: #1c4e35;
+
+            text-decoration: none;
+            text-align: center;
+
+            font-size: 0.95rem;
+            font-weight: 600;
+
+            border-radius: 12px;
+
+            white-space: nowrap;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .nav a:hover,
+        .nav a:focus-visible {
+            color: #ffffff;
+
+            background: #2f6b4f;
+
+            transform: translateY(-1px);
+
+            outline: none;
+        }
+
+
+        /* =========================
+           HERO CONTENT
+           ========================= */
+
+        .hero-content {
+            width: 100%;
+            max-width: 1100px;
+
+            margin-top: 65px;
+
+            text-align: center;
+        }
+
+        .subtitle {
+            margin: 0 0 16px;
+
+            color: #24583d;
+
+            font-size: clamp(1.8rem, 4vw, 3rem);
+
+            font-weight: 700;
+
+            letter-spacing: 0.18em;
+
+            text-transform: uppercase;
+
+            text-shadow:
+                0 2px 15px rgba(255, 255, 255, 0.6);
+        }
+
+        .hero h1 {
+            margin: 0;
+
+            color: #173b2a;
+
+            font-size: clamp(2.2rem, 5vw, 4.6rem);
+
+            line-height: 1.05;
+
+            font-weight: 700;
+
+            letter-spacing: -0.04em;
+
+            text-shadow:
+                0 2px 15px rgba(255, 255, 255, 0.55);
+        }
+
+
+        /* =========================
+           MAIN CONTENT
+           ========================= */
+
+        main {
+            position: relative;
+
+            z-index: 2;
+
+            width: min(920px, calc(100% - 32px));
+
+            margin: -55px auto 70px;
+
+            padding: 48px 55px 52px;
+
+            background: rgba(255, 255, 255, 0.94);
+
+            border: 1px solid rgba(255, 255, 255, 0.9);
+
+            border-radius: 28px;
+
+            box-shadow:
+                0 24px 70px rgba(30, 75, 49, 0.16);
+
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        main h2 {
+            margin: 0 0 22px;
+
+            color: #24583d;
+
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+
+            line-height: 1.15;
+
+            font-weight: 700;
+        }
+
+        main p {
+            margin: 0;
+
+            color: #385546;
+
+            font-size: 1.08rem;
+
+            line-height: 1.8;
+        }
+
+        main p + p {
+            margin-top: 18px;
+        }
+
+        main strong {
+            color: #24583d;
+        }
+
+
+        /* =========================
+           LOGOS
+           ========================= */
+
+        .logo-area {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 50px;
+
+            margin-top: 42px;
+
+            padding: 10px 0 0;
+        }
+
+        .logo-area img {
+            display: block;
+
+            height: 150px;
+
+            width: auto;
+
+            max-width: none;
+
+            object-fit: contain;
+
+            filter:
+                drop-shadow(
+                    0 12px 18px rgba(20, 65, 40, 0.16)
+                );
+        }
+
+
+        /* =========================
+           FOOTER
+           ========================= */
+
+        footer {
+            padding: 0 20px 38px;
+
+            text-align: center;
+
+            color: #557361;
+
+            font-size: 0.9rem;
+        }
+
+
+        /* =========================
+           TABLET
+           ========================= */
+
+        @media (max-width: 800px) {
+
+            .hero {
+                min-height: 560px;
+
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            .nav {
+                top: 16px;
+
+                gap: 6px;
+
+                padding: 7px 9px;
+
+                width: calc(100% - 28px);
+            }
+
+            .nav a {
+                padding: 9px 12px;
+
+                font-size: 0.86rem;
+            }
+
+            .hero-content {
+                margin-top: 70px;
+            }
+
+            main {
+                margin-top: -42px;
+
+                padding: 38px 30px 42px;
+
+                border-radius: 24px;
+            }
+
+            .logo-area {
+                gap: 35px;
+
+                margin-top: 36px;
+            }
+
+            .logo-area img {
+                height: 125px;
+            }
+        }
+
+
+        /* =========================
+           MOBILE
+           ========================= */
+
+        @media (max-width: 560px) {
+
+            .hero {
+                min-height: 530px;
+            }
+
+            .nav {
+                top: 14px;
+
+                width: calc(100% - 20px);
+
+                gap: 3px;
+
+                padding: 6px;
+            }
+
+            .nav a {
+                padding: 9px 5px;
+
+                font-size: 0.76rem;
+            }
+
+            .hero-content {
+                margin-top: 75px;
+            }
+
+            .subtitle {
+                font-size: 1.5rem;
+
+                letter-spacing: 0.14em;
+            }
+
+            .hero h1 {
+                font-size: clamp(2rem, 9vw, 3rem);
+            }
+
+            main {
+                width: calc(100% - 22px);
+
+                margin-top: -35px;
+
+                padding: 32px 22px 36px;
+
+                border-radius: 20px;
+            }
+
+            main p {
+                font-size: 1rem;
+
+                line-height: 1.7;
+            }
+
+            .logo-area {
+                gap: 24px;
+            }
+
+            .logo-area img {
+                height: 100px;
+            }
+        }
+
+
+        /* =========================
+           REDUCED MOTION
+           ========================= */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            html {
+                scroll-behavior: auto;
+            }
+
+            .nav a {
+                transition: none;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HERO
+         ========================= -->
+
+    <header class="hero">
+
+        <div
+            class="hero-photo"
+            aria-hidden="true">
+        </div>
+
+        <div
+            class="hero-gradient"
+            aria-hidden="true">
+        </div>
+
+
+        <nav
+            class="nav"
+            aria-label="Main navigation">
+
+            <a href="homyndex.html">
+                Home
+            </a>
+
+            <a href="materialy.html">
+                Materials
+            </a>
+
+            <a href="glossary.html">
+                Glossary
+            </a>
+
+            <a href="testy.html">
+                Tests
+            </a>
+
+        </nav>
+
+
+        <div class="hero-content">
+
+            <div class="subtitle">
+                Z-AMOR
+            </div>
+
+            <h1>
+                Anatomy and Morphology of Plants
+            </h1>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================
+         MAIN CONTENT
+         ========================= -->
+
+    <main>
+
+        <h2>
+            Welcome
+        </h2>
+
+        <p>
+            Welcome to the online learning environment for the course
+            <strong>Anatomy and Morphology of Plants</strong>.
+        </p>
+
+        <p>
+            The content currently includes a collection of study materials,
+            glossary of plant terms used in texts and a section with online
+            revision tests.
+        </p>
+
+
+        <!-- LOGOS -->
+
+        <div class="logo-area">
+
+            <img
+                src="pictures/logolink.png"
+                alt="">
+
+            <img
+                src="pictures/Mendelu_logo.png"
+                alt="">
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =========================
+         FOOTER
+         ========================= -->
+
+    <footer>
+        © 2026 · Z-AMOR · Martin Jiroušek
+    </footer>
+
+
+</body>
+</html>
