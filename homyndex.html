@@ -247,7 +247,7 @@
 
             margin: -55px auto 70px;
 
-            padding: 48px 55px 52px;
+            padding: 48px 55px 42px;
 
             background: rgba(255, 255, 255, 0.94);
 
@@ -294,7 +294,7 @@
 
 
         /* =========================
-           LOGOS
+           Z-AMOR LOGO
            ========================= */
 
         .logo-area {
@@ -303,28 +303,56 @@
             justify-content: center;
             align-items: center;
 
-            gap: 50px;
-
-            margin-top: 42px;
+            margin-top: 38px;
 
             padding: 10px 0 0;
         }
 
-        .logo-area img {
+        .zamor-logo {
             display: block;
 
-            height: 150px;
+            width: 420px;
+            max-width: 80%;
 
-            width: auto;
-
-            max-width: none;
-
-            object-fit: contain;
+            height: auto;
 
             filter:
                 drop-shadow(
-                    0 12px 18px rgba(20, 65, 40, 0.16)
+                    0 10px 16px rgba(20, 65, 40, 0.14)
                 );
+        }
+
+
+        /* =========================
+           MENDELU LOGO
+           ========================= */
+
+        .mendelu-area {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            margin-top: 34px;
+
+            padding-top: 24px;
+
+            border-top:
+                1px solid rgba(47, 107, 79, 0.14);
+        }
+
+        .mendelu-area img {
+            display: block;
+
+            height: 85px;
+
+            width: auto;
+
+            max-width: 70%;
+
+            object-fit: contain;
+
+            opacity: 0.92;
         }
 
 
@@ -384,14 +412,18 @@
                 border-radius: 24px;
             }
 
-            .logo-area {
-                gap: 35px;
-
-                margin-top: 36px;
+            .zamor-logo {
+                width: 380px;
             }
 
-            .logo-area img {
-                height: 125px;
+            .mendelu-area {
+                margin-top: 30px;
+
+                padding-top: 22px;
+            }
+
+            .mendelu-area img {
+                height: 75px;
             }
         }
 
@@ -453,11 +485,25 @@
             }
 
             .logo-area {
-                gap: 24px;
+                margin-top: 32px;
             }
 
-            .logo-area img {
-                height: 100px;
+            .zamor-logo {
+                width: 330px;
+
+                max-width: 82%;
+            }
+
+            .mendelu-area {
+                margin-top: 28px;
+
+                padding-top: 20px;
+            }
+
+            .mendelu-area img {
+                height: 65px;
+
+                max-width: 72%;
             }
         }
 
@@ -562,13 +608,21 @@
         </p>
 
 
-        <!-- LOGOS -->
+        <!-- Z-AMOR LOGO -->
 
         <div class="logo-area">
 
             <img
+                class="zamor-logo"
                 src="pictures/logolink.png"
                 alt="">
+
+        </div>
+
+
+        <!-- MENDELU LOGO -->
+
+        <div class="mendelu-area">
 
             <img
                 src="pictures/Mendelu_logo.png"
