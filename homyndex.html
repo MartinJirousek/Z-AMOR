@@ -35,67 +35,99 @@
         }
 
         /* =========================
-           HERO
+           HEADER
            ========================= */
 
         .hero {
             position: relative;
-            min-height: 560px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 70px 24px 100px;
+            padding: 80px 24px 75px;
+            background: linear-gradient(
+                135deg,
+                #dfeee5 0%,
+                #a9cdb8 35%,
+                #5d9075 68%,
+                #2f6b4f 100%
+            );
             overflow: hidden;
-            background: var(--green-dark);
         }
 
-        .hero-photo {
+        .hero::before {
+            content: "";
             position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            opacity: 0.62;
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.18);
+            top: -280px;
+            left: -180px;
         }
 
-        .hero-overlay {
+        .hero::after {
+            content: "";
             position: absolute;
-            inset: 0;
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(23, 59, 44, 0.90) 0%,
-                    rgba(23, 59, 44, 0.68) 45%,
-                    rgba(23, 59, 44, 0.35) 100%
-                );
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.10);
+            bottom: -260px;
+            right: -140px;
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
             width: min(1100px, 100%);
+            margin: 0 auto;
             text-align: center;
-            color: var(--white);
         }
 
         .hero h1 {
             margin: 0;
+            color: var(--green-dark);
             font-size: clamp(2.4rem, 6vw, 5.2rem);
             line-height: 1.05;
             font-weight: 700;
             letter-spacing: -0.035em;
-            text-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
         }
 
         .hero-subtitle {
-            margin-top: 18px;
+            margin-top: 20px;
+            color: var(--green-dark);
             font-size: clamp(1.1rem, 2.5vw, 1.55rem);
             letter-spacing: 0.22em;
             text-transform: uppercase;
-            font-weight: 500;
-            opacity: 0.92;
+            font-weight: 600;
         }
+
+
+        /* =========================
+           PHOTOGRAPH
+           ========================= */
+
+        .photo-section {
+            width: min(1100px, calc(100% - 40px));
+            margin: -25px auto 0;
+            position: relative;
+            z-index: 5;
+        }
+
+        .photo-frame {
+            background: white;
+            padding: 10px;
+            border-radius: 26px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .photo-frame img {
+            display: block;
+            width: 100%;
+            height: 430px;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 18px;
+        }
+
 
         /* =========================
            NAVIGATION
@@ -104,7 +136,7 @@
         .nav-wrap {
             position: relative;
             z-index: 10;
-            margin-top: -38px;
+            margin-top: 28px;
             padding: 0 20px;
         }
 
@@ -116,7 +148,7 @@
             flex-wrap: wrap;
             gap: 8px;
             padding: 10px;
-            background: rgba(23, 59, 44, 0.96);
+            background: rgba(23, 59, 44, 0.97);
             border-radius: 18px;
             box-shadow: var(--shadow);
         }
@@ -138,6 +170,7 @@
             background: rgba(255, 255, 255, 0.14);
             transform: translateY(-1px);
         }
+
 
         /* =========================
            MAIN CONTENT
@@ -171,6 +204,7 @@
             margin-bottom: 0;
         }
 
+
         /* =========================
            LOGO
            ========================= */
@@ -179,17 +213,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 55px auto 15px;
-            padding: 10px 20px;
+            margin: 70px auto 25px;
+            padding: 20px;
         }
 
         .logo-area img {
             display: block;
-            width: 360px;
-            max-width: 80%;
+            width: 600px;
+            max-width: 92%;
             height: auto;
             object-fit: contain;
         }
+
 
         /* =========================
            FOOTER
@@ -202,19 +237,55 @@
             font-size: 0.9rem;
         }
 
+
+        /* =========================
+           TABLET
+           ========================= */
+
+        @media (max-width: 800px) {
+
+            .photo-frame img {
+                height: 350px;
+            }
+
+            .logo-area img {
+                width: 500px;
+            }
+        }
+
+
         /* =========================
            MOBILE
            ========================= */
 
-        @media (max-width: 700px) {
+        @media (max-width: 600px) {
 
             .hero {
-                min-height: 470px;
-                padding: 60px 20px 90px;
+                padding: 60px 20px 60px;
             }
 
-            .hero-photo {
-                object-position: center;
+            .hero-subtitle {
+                letter-spacing: 0.16em;
+            }
+
+            .photo-section {
+                width: calc(100% - 24px);
+                margin-top: -15px;
+            }
+
+            .photo-frame {
+                padding: 7px;
+                border-radius: 20px;
+            }
+
+            .photo-frame img {
+                height: 270px;
+                border-radius: 14px;
+            }
+
+            .nav-wrap {
+                padding: 0 12px;
+                margin-top: 20px;
             }
 
             nav {
@@ -223,12 +294,12 @@
             }
 
             nav a {
-                padding: 9px 14px;
-                font-size: 0.9rem;
+                padding: 9px 13px;
+                font-size: 0.88rem;
             }
 
             main {
-                width: min(100% - 24px, 900px);
+                width: calc(100% - 24px);
                 margin-top: 35px;
             }
 
@@ -242,59 +313,72 @@
             }
 
             .logo-area {
-                margin-top: 40px;
+                margin-top: 50px;
             }
 
             .logo-area img {
-                width: 600px;
-                max-width: 90%;
+                width: 440px;
+                max-width: 100%;
             }
         }
+
+
+        /* =========================
+           SMALL MOBILE
+           ========================= */
 
         @media (max-width: 430px) {
 
-            .hero {
-                min-height: 430px;
-            }
-
-            .hero-subtitle {
-                letter-spacing: 0.16em;
-            }
-
-            nav a {
-                padding: 8px 11px;
-                font-size: 0.84rem;
+            .photo-frame img {
+                height: 220px;
             }
 
             .logo-area img {
-                width: 270px;
+                width: 390px;
             }
         }
+
     </style>
 </head>
 
 <body>
 
+
     <!-- =========================
-         HERO
+         TITLE
          ========================= -->
 
     <header class="hero">
 
-        <img
-            class="hero-photo"
-            src="pictures/IMG_0660.jpg"
-            alt=""
-        >
-
-        <div class="hero-overlay"></div>
-
         <div class="hero-content">
+
             <h1>Anatomy and Morphology of Plants</h1>
-            <div class="hero-subtitle">Z-AMOR</div>
+
+            <div class="hero-subtitle">
+                Z-AMOR
+            </div>
+
         </div>
 
     </header>
+
+
+    <!-- =========================
+         PHOTOGRAPH
+         ========================= -->
+
+    <section class="photo-section">
+
+        <div class="photo-frame">
+
+            <img
+                src="pictures/IMG_0660.jpg"
+                alt=""
+            >
+
+        </div>
+
+    </section>
 
 
     <!-- =========================
@@ -302,6 +386,7 @@
          ========================= -->
 
     <div class="nav-wrap">
+
         <nav aria-label="Main navigation">
 
             <a href="homyndex.html">Home</a>
@@ -313,6 +398,7 @@
             <a href="testy.html">Tests</a>
 
         </nav>
+
     </div>
 
 
@@ -345,10 +431,12 @@
              ========================= -->
 
         <div class="logo-area">
+
             <img
                 src="pictures/logolink.png"
                 alt="Z-AMOR"
             >
+
         </div>
 
     </main>
@@ -361,6 +449,7 @@
     <footer>
         © 2026 · Z-AMOR · Martin Jiroušek
     </footer>
+
 
 </body>
 </html>
