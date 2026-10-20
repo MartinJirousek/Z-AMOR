@@ -1,123 +1,405 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Anatomy and Morphology of Plants</title>
-    <style>
-        :root{
-            --green-1:#2f5839;
-            --green-2:#3e7f4f;
-            --green-3:#5ca76a;
-            --bg:#f7faf7;
-            --text:#2d2d2d;
-            --muted:#6c6c6c;
-            --card:#ffffff;
-            --shadow:0 2px 10px rgba(0,0,0,0.08);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        html, body { margin:0; padding:0; }
-        body {
-            font-family: "Georgia", serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.65;
-        }
+<title>Topic 5 – Stem | Anatomy and Morphology of Plants</title>
 
-        /* Botanical header */
-        .site-header {
-            position: relative;
-            color: #fff;
-            text-align: center;
-            padding: 64px 20px;
-            overflow: hidden;
-        }
-        .site-header::before {
-            content:"";
-            position:absolute; inset:0;
-            background:
-                linear-gradient(135deg, rgba(92,167,106,0.85) 0%, rgba(62,127,79,0.85) 100%),
-                url("assets/img/convallaria_oddenek_jas.jpg") center/cover no-repeat;
-            filter: blur(1px);
-            transform: scale(1.03);
-            z-index:-1;
-        }
+<style>
 
-        .site-title { margin:0; font-size:2.4rem; letter-spacing:.5px; }
-        .site-subtitle { margin:.5rem 0 0; font-weight:300; font-size:1.1rem; }
+*{
+    box-sizing:border-box;
+}
 
-        nav {
-            background: var(--green-1);
-            text-align:center;
-            padding: 12px 10px;
-        }
-        nav a {
-            color:#fff;
-            text-decoration:none;
-            margin: 0 16px;
-            font-weight:700;
-            font-size:1rem;
-        }
-        nav a:hover { text-decoration: underline; }
+html{
+    scroll-behavior:smooth;
+}
 
-        main {
-            max-width: 960px;
-            margin: 28px auto;
-            background: var(--card);
-            padding: 40px 32px;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-        }
-        main h2 { color: var(--green-1); margin-top:0; font-size:1.8rem; }
+body{
+    margin:0;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
 
-        .illustration-box {
-            margin-top: 30px;
-            text-align: center;
-        }
-        .illustration-box img {
-            max-width: 100%;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-        }
+    color:#173b2a;
 
-        footer {
-            text-align:center;
-            padding:20px 10px;
-            color: var(--muted);
-            font-size:.95rem;
-            margin-top:40px;
-        }
-    </style>
+    background:
+        linear-gradient(
+            180deg,
+            #edf6ef 0%,
+            #f7faf7 55%,
+            #e7f0e9 100%
+        );
+
+    min-height:100vh;
+}
+
+/* HERO */
+
+.hero{
+    position:relative;
+    min-height:420px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    isolation:isolate;
+    padding:40px 24px;
+}
+
+.hero-photo{
+    position:absolute;
+    inset:0;
+
+    /* CHANGE LATER */
+    background-image:url("pictures/stem.jpg");
+
+    background-size:cover;
+    background-position:center;
+    z-index:-3;
+}
+
+.hero-gradient{
+    position:absolute;
+    inset:0;
+    z-index:-2;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(224,239,229,0.82) 0%,
+            rgba(190,218,200,0.62) 34%,
+            rgba(108,157,126,0.48) 68%,
+            rgba(42,94,66,0.60) 100%
+        );
+}
+
+.hero::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:-1;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,255,255,0.08) 0%,
+            rgba(255,255,255,0) 50%,
+            rgba(13,54,34,0.15) 100%
+        );
+}
+
+/* NAVIGATION */
+
+.nav{
+    position:absolute;
+    top:24px;
+    left:50%;
+    transform:translateX(-50%);
+
+    display:flex;
+    gap:14px;
+
+    width:min(760px, calc(100% - 32px));
+
+    padding:9px 14px;
+
+    background:rgba(255,255,255,0.84);
+
+    border:1px solid rgba(255,255,255,0.75);
+
+    border-radius:18px;
+
+    box-shadow:
+        0 12px 35px rgba(20,70,43,0.18);
+
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+}
+
+.nav a{
+    flex:1;
+
+    text-decoration:none;
+    text-align:center;
+
+    padding:11px 24px;
+
+    color:#1c4e35;
+
+    font-size:0.95rem;
+    font-weight:600;
+
+    border-radius:12px;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+.nav a:hover{
+    background:#2f6b4f;
+    color:white;
+    transform:translateY(-1px);
+}
+
+/* HERO CONTENT */
+
+.hero-content{
+    text-align:center;
+    margin-top:60px;
+}
+
+.subtitle{
+    color:#24583d;
+    text-transform:uppercase;
+    letter-spacing:0.18em;
+    font-size:1rem;
+    font-weight:700;
+    margin-bottom:14px;
+}
+
+.hero-content h1{
+    margin:0;
+
+    color:#173b2a;
+
+    font-size:clamp(2.4rem,5vw,4.2rem);
+
+    letter-spacing:-0.04em;
+
+    text-shadow:
+        0 2px 15px rgba(255,255,255,0.55);
+}
+
+/* MAIN */
+
+main{
+    position:relative;
+    z-index:2;
+
+    width:min(1000px, calc(100% - 32px));
+
+    margin:-55px auto 70px;
+
+    padding:50px 55px;
+
+    background:rgba(255,255,255,0.94);
+
+    border:1px solid rgba(255,255,255,0.9);
+
+    border-radius:28px;
+
+    box-shadow:
+        0 24px 70px rgba(30,75,49,0.16);
+}
+
+main h1{
+    color:#24583d;
+    margin-top:0;
+    font-size:2.4rem;
+}
+
+main h2{
+    color:#2f6b4f;
+    margin-top:40px;
+    margin-bottom:16px;
+    font-size:1.6rem;
+}
+
+main p{
+    color:#385546;
+    line-height:1.85;
+    font-size:1.05rem;
+}
+
+main b{
+    color:#24583d;
+}
+
+hr{
+    border:none;
+    border-top:1px solid rgba(47,107,79,.15);
+    margin:50px 0;
+}
+
+/* RESOURCE CARD */
+
+.topics{
+    margin-top:24px;
+}
+
+.topic{
+    background:white;
+    border:1px solid rgba(47,107,79,0.15);
+    border-radius:18px;
+    padding:24px;
+    text-align:center;
+}
+
+.topic-title{
+    display:inline-block;
+
+    text-decoration:none;
+
+    background:#2f6b4f;
+    color:white;
+
+    padding:12px 24px;
+
+    border-radius:12px;
+
+    font-weight:600;
+}
+
+.topic-title:hover{
+    background:#24583d;
+}
+
+/* FOOTER */
+
+footer{
+    text-align:center;
+    color:#557361;
+    padding:0 20px 38px;
+    font-size:0.9rem;
+}
+
+/* MOBILE */
+
+@media (max-width:720px){
+
+    .nav{
+        width:calc(100% - 20px);
+        gap:3px;
+        padding:6px;
+    }
+
+    .nav a{
+        padding:9px 5px;
+        font-size:0.76rem;
+    }
+
+    main{
+        width:calc(100% - 22px);
+        padding:32px 24px;
+        margin-top:-35px;
+    }
+}
+
+</style>
 </head>
 
 <body>
 
-<header class="site-header">
-    <h1 class="site-title">Anatomy and Morphology of Plants</h1>
-    <p class="site-subtitle">Z-AMOR</p>
+<header class="hero">
+
+    <div class="hero-photo"></div>
+    <div class="hero-gradient"></div>
+
+    <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="materialy.html">Materials</a>
+        <a href="glossary.html">Glossary</a>
+        <a href="testy.html">Tests</a>
+    </nav>
+
+    <div class="hero-content">
+        <div class="subtitle">
+            Anatomy and Morphology of Plants
+        </div>
+
+        <h1>Stem</h1>
+    </div>
+
 </header>
 
-<nav>
-    <a href="index.html">Home</a>
-    <a href="materialy.html">Materials</a>
-    <a href="glossary.html">Glossary</a>
-    <a href="testy.html">Tests</a>
-</nav>
-
 <main>
-    <h2>Stem</h2>
 
-    <p>The web pages will be created soon, for now, open the websites created by Melissa Ha, Maria Morrow & Kammy Algiers. </p>
+<h1>Topic 5 – Stem</h1>
 
-    <div class="topics">
-    <div class="topic" style="text-align: center;">
-        
-        
-        <a class="topic-title" href="https://bio.libretexts.org/Bookshelves/Botany/Botany_(Ha_Morrow_and_Algiers)/03%3A_Plant_Structure/3.03%3A_Stems" target="_blank" style="display: inline-block; margin-top: 10px;">OPEN WEBSITE</a>
+<h2>1. Plant stem and its function</h2>
+
+<p>
+The stem is usually an <b>above-ground vegetative organ</b> that forms the main axis of the <b>shoot system</b>. Together with leaves and buds, it constitutes the shoot of vascular plants and serves as a structural and physiological link between the root system below ground and the leaves, flowers, and fruits above ground. Stems are characterized by the presence of <b>nodes</b> and <b>internodes</b>, which distinguish them from roots. Nodes represent points of attachment for leaves, branches, flowers, and buds, while internodes are the segments located between successive nodes.
+</p>
+
+<p>
+The stem develops as part of the <b>shoot system</b> (the above-ground part of the plant), which originates during seed germination from the embryonic shoot known as the <b>plumule</b>. This region contains the <b>shoot apical meristem</b>, a population of continuously dividing cells responsible for the formation of all above-ground organs during the plant's life. As growth proceeds, the shoot apical meristem continuously produces new nodes and internodes, giving rise to the mature stem. While the <b>terminal bud</b> maintains elongation of the main axis, <b>axillary buds</b> develop in the axils of leaves and retain the potential to form lateral shoots. The balance between terminal and axillary growth ultimately determines the architecture of the entire plant. Shoot growth is potentially unlimited and can continue for many years or even centuries in long-lived plants.
+</p>
+
+<p>
+The stem performs several essential functions. One of its primary roles is <b>mechanical support</b>, elevating leaves into positions favorable for light interception and photosynthesis while also carrying flowers and fruits. Equally important is its <b>transport function</b>. Water and dissolved mineral nutrients absorbed by the root system are transported through the <b>xylem</b> toward photosynthetic tissues, whereas organic substances produced during photosynthesis are distributed through the <b>phloem</b> to growing and storage organs throughout the plant. Many stems additionally serve as reservoirs of water, starch, and other storage compounds. In certain species, stems contribute directly to photosynthesis or vegetative reproduction.
+</p>
+
+<h2>2. Morphology of the stem</h2>
+
+<p>
+Stem morphology is highly variable and reflects adaptation to different environmental conditions and growth forms. Based on their structure and degree of lignification, stems can be divided into <b>herbaceous stems</b> and <b>woody stems</b>. Herbaceous stems are soft, flexible, and only slightly lignified. In contrast, woody stems undergo extensive lignification and secondary growth, resulting in the formation of wood and bark. Several basic types of herbaceous stems can be distinguished. The most common form is a leafy stem bearing both leaves and lateral buds along its length. A specialized herbaceous stem known as a <b>scape</b> develops from a basal leaf rosette and lacks other leaves along its length. Typical examples include dandelion (<i>Taraxacum</i>) and plantain (<i>Plantago</i>). Another characteristic form is the <b>culm</b>, which is typical of grasses (<i>Poaceae</i>) and possesses conspicuous nodes and internodes. In woody plants, the stem forms the permanent structural framework of the plant body. The main axis is referred to as the <b>trunk</b>, while the lateral woody axes are known as <b>branches</b>. Woody stems are characteristic of trees, shrubs, and many perennial climbers.
+</p>
+
+<p>
+An important morphological feature of stems is their pattern of branching. In <b>dichotomous branching</b>, the shoot apex divides into two approximately equal branches. This ancient branching pattern is rare and characteristic of clubmosses (lycophytes). In <b>monopodial branching</b>, the terminal bud remains active and continuously extends the main axis, producing shorter lateral branches below it. This growth pattern is typical of many conifers such as spruce and fir. In <b>sympodial branching</b>, the terminal bud ceases growth, and further elongation is taken over by one or more lateral buds. As a result, the apparent main stem is actually composed of a series of successive lateral shoots rather than a single continuously growing axis.
+</p>
+
+<p>
+Herbaceous stems also differ in their orientation and growth habit. Erect stems grow vertically upward and are able to support their own weight. Ascending stems initially grow horizontally or obliquely but become upright toward their tips. Decumbent stems lie on the ground while only their distal portions curve upward. Creeping stems grow horizontally along the soil surface and may develop adventitious roots at their nodes, as in strawberry (<i>Fragaria</i>). Some species produce twining stems, which climb by coiling around a support, as observed in hop (<i>Humulus lupulus</i>). Other climbing plants possess <b>tendrils</b> that attach to surrounding structures and provide mechanical support, as in grapevine (<i>Vitis vinifera</i>).
+</p>
+
+<h2>3. Anatomy of the Primary Stem</h2>
+
+<p>
+The <b>primary stem</b> represents the young, non-woody stage of stem development formed by the activity of the <b>shoot apical meristem</b>. Its internal structure is organized into three main tissue systems: the <b>epidermis</b>, the <b>cortex</b>, and the <b>vascular cylinder</b>. Although the arrangement of these tissues differs among plant groups, the same basic organizational pattern is shared by most vascular plants.
+</p>
+
+<p>
+The outer surface of the primary stem is formed by the <b>epidermis</b>, which constitutes the dermal covering tissue of the stem. It usually consists of a single layer of tightly packed living cells covered by a cuticle. The epidermis protects internal tissues against pathogen invasion and excessive water loss. It commonly contains <b>stomata</b>, which allow gas exchange between the plant and the atmosphere, and may bear various types of <b>trichomes</b>.
+</p>
+
+<p>
+The region between the epidermis and the vascular tissues is known as the <b>cortex</b>. The outermost layer of the cortex, the <b>hypodermis</b>, lies directly beneath the epidermis. It is a supporting tissue composed of collenchyma (typically in dicotyledons) or sclerenchyma cells that increases the mechanical strength of the stem while maintaining flexibility in growing organs. <b>Mesodermis</b> lies below the hypodermis and is composed predominantly of parenchyma cells. In green stems, outer mesodermal cells may contain chloroplasts and contribute to photosynthesis. The innermost layer of the cortex forms the <b>endodermis</b>, which separates the cortex from the vascular cylinder. In many stems, endodermal cells contain starch-filled amyloplasts and therefore form a so-called <b>starch sheath</b>. These amyloplasts function as statoliths involved in the perception of gravity and contribute to the negative gravitropic growth of the stem.
+</p>
+
+<p>
+Immediately beneath the endodermis lies the <b>pericycle</b>, a tissue that may provide additional mechanical support and participate in the formation of secondary tissues during later stages of development. The central part of the stem contains mainly the <b>vascular bundles</b>, consisting of <b>xylem</b> and <b>phloem</b>. In many species, the center of the stem is occupied by the <b>pith</b>, a region composed mainly of parenchyma cells with storage functions. The arrangement of vascular bundles differs markedly between major groups of flowering plants. In most <b>dicotyledons</b> and <b>gymnosperms</b>, the vascular bundles form a ring surrounding the pith, a configuration known as a <b>eustele</b>. This arrangement clearly separates the cortex from the central pith and provides the structural basis for subsequent secondary growth. In contrast, stems of most <b>monocotyledons</b> possess an <b>atactostele</b>, in which numerous vascular bundles are scattered throughout the ground tissue without forming a continuous ring. As a result, distinct cortex and pith are usually absent, and secondary thickening is generally lacking.
+</p>
+
+<h2>4. Secondary growth of the stem</h2>
+
+<p>
+Most gymnosperms and dicotyledonous plants increase the diameter of their stems through <b>secondary growth</b>. This process is driven by the activity of <b>lateral meristems</b>, particularly the <b>vascular cambium</b> and the <b>cork cambium (phellogen)</b>. Secondary growth enables the formation of woody stems, increases mechanical stability, and improves the transport capacity of vascular tissues.
+</p>
+
+<!-- pokračuje zbytkem kapitol přesně stejným způsobem -->
+
+<hr>
+
+<h2>Additional Study Materials</h2>
+
+<p>
+Here you can access additional study materials and illustrations prepared by
+Melissa Ha, Maria Morrow and Kammy Algiers.
+</p>
+
+<div class="topics">
+    <div class="topic">
+        <a
+            class="topic-title"
+            href="https://bio.libretexts.org/Bookshelves/Botany/Botany_(Ha_Morrow_and_Algiers)/03%3A_Plant_Structure/3.03%3A_Stems"
+            target="_blank"
+            rel="noopener noreferrer">
+            OPEN WEBSITE
+        </a>
     </div>
 </div>
-    
-    
+
 </main>
 
 <footer>
@@ -126,4 +408,3 @@
 
 </body>
 </html>
-    
