@@ -1,150 +1,426 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Materials – Anatomy and Morphology of Plants</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        :root{
-            --green-1:#2f5839;
-            --green-2:#3e7f4f;
-            --green-3:#5ca76a;
-            --bg:#f7faf7;
-            --text:#2d2d2d;
-            --muted:#6c6c6c;
-            --card:#ffffff;
-            --shadow:0 2px 10px rgba(0,0,0,0.08);
-        }
+<title>Materials – Anatomy and Morphology of Plants</title>
 
-        body {
-            margin:0;
-            font-family: "Georgia", serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.65;
-        }
+<style>
 
-        .site-header {
-            position: relative;
-            text-align:center;
-            color:white;
-            padding:60px 20px;
-            overflow:hidden;
-        }
-        .site-header::before {
-            content:"";
-            position:absolute; inset:0;
-            background:
-                linear-gradient(135deg, rgba(92,167,106,0.85) 0%, rgba(62,127,79,0.85) 100%),
-                url("assets/img/convallaria_oddenek_jas.jpg") center/cover no-repeat;
-            filter: blur(1px);
-            transform: scale(1.03);
-            z-index:-1;
-        }
+*{
+    box-sizing:border-box;
+}
 
-        .site-title { margin:0; font-size:2.2rem; }
-        .site-subtitle { margin-top:8px; font-size:1.05rem; font-weight:300; }
+html{
+    scroll-behavior:smooth;
+}
 
-        nav {
-            background:var(--green-1);
-            padding:12px;
-            text-align:center;
-        }
-        nav a {
-            color:white;
-            text-decoration:none;
-            margin:0 16px;
-            font-weight:bold;
-        }
-        nav a:hover { text-decoration:underline; }
+body{
+    margin:0;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
 
-        main {
-            max-width:960px;
-            margin:30px auto;
-            padding:40px 30px;
-            background:white;
-            border-radius:12px;
-            box-shadow: var(--shadow);
-        }
+    color:#173b2a;
 
-        .topics {
-            display:grid;
-            grid-template-columns:repeat(2,1fr);
-            gap:16px;
-        }
+    background:
+        linear-gradient(
+            180deg,
+            #edf6ef 0%,
+            #f7faf7 55%,
+            #e7f0e9 100%
+        );
 
-        .topic {
-            background:white;
-            border:1px solid #e2ebe2;
-            border-radius:10px;
-            padding:14px 16px;
-        }
+    min-height:100vh;
+}
 
-        .topic-title {
-            font-weight:bold;
-            color:var(--green-1);
-            font-size:1rem;
-            text-decoration:none;
-        }
+/* =========================
+   HERO
+   ========================= */
 
-        .topic small {
-            color:#555;
-            display:block;
-            margin-top:4px;
-        }
+.hero{
+    position:relative;
 
-        @media (max-width:720px){
-            .topics { grid-template-columns:1fr; }
-        }
+    min-height:420px;
 
-        footer {
-            text-align:center;
-            padding:20px;
-            color:var(--muted);
-            margin-top:40px;
-        }
-    </style>
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
+    padding:40px 24px;
+
+    overflow:hidden;
+    isolation:isolate;
+}
+
+.hero-photo{
+    position:absolute;
+    inset:0;
+
+    background-image:url("assets/img/convallaria_oddenek_jas.jpg");
+    background-size:cover;
+    background-position:center;
+
+    z-index:-3;
+}
+
+.hero-gradient{
+    position:absolute;
+    inset:0;
+
+    z-index:-2;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(224,239,229,0.82) 0%,
+            rgba(190,218,200,0.62) 34%,
+            rgba(108,157,126,0.48) 68%,
+            rgba(42,94,66,0.60) 100%
+        );
+}
+
+.hero::after{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    z-index:-1;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,255,255,0.08) 0%,
+            rgba(255,255,255,0) 50%,
+            rgba(13,54,34,0.15) 100%
+        );
+}
+
+/* =========================
+   NAVIGATION
+   ========================= */
+
+.nav{
+    position:absolute;
+
+    top:24px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    display:flex;
+    gap:14px;
+
+    width:min(760px, calc(100% - 32px));
+
+    padding:9px 14px;
+
+    background:rgba(255,255,255,0.84);
+
+    border:1px solid rgba(255,255,255,0.75);
+
+    border-radius:18px;
+
+    box-shadow:
+        0 12px 35px rgba(20,70,43,0.18);
+
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+}
+
+.nav a{
+    flex:1;
+
+    text-decoration:none;
+
+    text-align:center;
+
+    padding:11px 24px;
+
+    font-size:0.95rem;
+    font-weight:600;
+
+    color:#1c4e35;
+
+    border-radius:12px;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+.nav a:hover{
+    background:#2f6b4f;
+    color:white;
+    transform:translateY(-1px);
+}
+
+/* =========================
+   HERO CONTENT
+   ========================= */
+
+.hero-content{
+    text-align:center;
+    margin-top:60px;
+}
+
+.hero-content h1{
+    margin:0;
+
+    font-size:clamp(2.4rem, 5vw, 4.4rem);
+
+    color:#173b2a;
+
+    line-height:1.05;
+
+    letter-spacing:-0.04em;
+
+    text-shadow:
+        0 2px 15px rgba(255,255,255,0.55);
+}
+
+.subtitle{
+    margin-bottom:14px;
+
+    text-transform:uppercase;
+
+    color:#24583d;
+
+    letter-spacing:0.18em;
+
+    font-size:1rem;
+    font-weight:700;
+}
+
+/* =========================
+   MAIN CONTENT
+   ========================= */
+
+main{
+    position:relative;
+
+    z-index:2;
+
+    width:min(1100px, calc(100% - 32px));
+
+    margin:-55px auto 70px;
+
+    padding:48px;
+
+    background:rgba(255,255,255,0.94);
+
+    border-radius:28px;
+
+    border:1px solid rgba(255,255,255,0.9);
+
+    box-shadow:
+        0 24px 70px rgba(30,75,49,0.16);
+
+    backdrop-filter:blur(10px);
+}
+
+main h2{
+    margin-top:0;
+    margin-bottom:18px;
+
+    color:#24583d;
+
+    font-size:2rem;
+}
+
+.intro{
+    color:#4b6457;
+    line-height:1.8;
+    margin-bottom:34px;
+}
+
+/* =========================
+   TOPICS GRID
+   ========================= */
+
+.topics{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.topic{
+    background:white;
+
+    border:1px solid rgba(47,107,79,0.12);
+
+    border-radius:18px;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+
+    overflow:hidden;
+}
+
+.topic:hover{
+    transform:translateY(-4px);
+
+    box-shadow:
+        0 12px 30px rgba(30,75,49,0.12);
+
+    border-color:#8fc09b;
+}
+
+.topic a{
+    display:block;
+
+    padding:20px 22px;
+
+    text-decoration:none;
+
+    color:#24583d;
+
+    font-size:1rem;
+    font-weight:600;
+}
+
+/* =========================
+   FOOTER
+   ========================= */
+
+footer{
+    text-align:center;
+
+    padding:0 20px 38px;
+
+    color:#557361;
+
+    font-size:0.9rem;
+}
+
+/* =========================
+   TABLET
+   ========================= */
+
+@media (max-width:800px){
+
+    .nav{
+        gap:6px;
+        padding:7px 9px;
+    }
+
+    .nav a{
+        padding:9px 12px;
+        font-size:0.86rem;
+    }
+
+    main{
+        padding:36px 28px;
+    }
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width:720px){
+
+    .topics{
+        grid-template-columns:1fr;
+    }
+
+    .hero{
+        min-height:380px;
+    }
+
+    .nav{
+        width:calc(100% - 20px);
+        gap:3px;
+        padding:6px;
+    }
+
+    .nav a{
+        padding:9px 5px;
+        font-size:0.76rem;
+    }
+
+    main{
+        width:calc(100% - 22px);
+
+        padding:30px 22px;
+
+        margin-top:-35px;
+
+        border-radius:20px;
+    }
+}
+
+</style>
 </head>
 
 <body>
 
-<header class="site-header">
-    <h1 class="site-title">Anatomy and Morphology of Plants</h1>
-    <p class="site-subtitle">Educational Materials</p>
-</header>
+<header class="hero">
 
-<nav>
-    <a href="index.html">Home</a>
-    <a href="materialy.html">Materials</a>
-    <a href="glossary.html">Glossary</a>
-    <a href="testy.html">Tests</a>
-</nav>
+    <div class="hero-photo" aria-hidden="true"></div>
+    <div class="hero-gradient" aria-hidden="true"></div>
 
-<main>
-    <h2>Course Topics</h2>
-    <p>Each topic includes recommended study texts, illustrations, images, and relevant video resources aligned with lectures and practical classes.</p>
+    <nav class="nav" aria-label="Main navigation">
 
-    <!-- OPRAVENO: mřížka .topics + položky .topic -->
-    <div class="topics">
+        <a href="index.html">Home</a>
+        <a href="materialy.html">Materials</a>
+        <a href="glossary.html">Glossary</a>
+        <a href="testy.html">Tests</a>
 
-        <div class="topic"><a class="topic-title" href="topic1.html">Plant Cell</a></div>
-        <div class="topic"><a class="topic-title" href="topic2.html">Plant Tissues</a></div>
-        <div class="topic"><a class="topic-title" href="topic3.html">Plant Meristems and Plant Growth</a></div>
-        <div class="topic"><a class="topic-title" href="topic4.html">Plant Evolution and Global Diversity</a></div>
-        <div class="topic"><a class="topic-title" href="topic5.html">Herbal and Woody Stems</a></div>
-        <div class="topic"><a class="topic-title" href="topic6.html">Roots</a></div>
-        <div class="topic"><a class="topic-title" href="topic7.html">Buds and Leaves</a></div>
-        <div class="topic"><a class="topic-title" href="topic8.html">Flowers and Pollination</a></div>
-        <div class="topic"><a class="topic-title" href="topic9.html">Seeds and Fruits</a></div>
-        <div class="topic"><a class="topic-title" href="topic10.html">Plant Life Cycle</a></div>
-        <div class="topic"><a class="topic-title" href="topic11.html">Monocotyledonous and Dicotyledonous Plants</a></div>
-        <div class="topic"><a class="topic-title" href="topic12.html">Cereals</a></div>
+    </nav>
+
+    <div class="hero-content">
+
+        <div class="subtitle">
+            Educational Materials
+        </div>
+
+        <h1>
+            Anatomy and Morphology of Plants
+        </h1>
 
     </div>
 
-    </main>
+</header>
+
+<main>
+
+    <h2>Course Topics</h2>
+
+    <p class="intro">
+        Each topic includes recommended study texts, illustrations,
+        images, and relevant video resources aligned with lectures
+        and practical classes.
+    </p>
+
+    <div class="topics">
+
+        <div class="topic"><a href="topic1.html">Plant Cell</a></div>
+        <div class="topic"><a href="topic2.html">Plant Tissues</a></div>
+        <div class="topic"><a href="topic3.html">Plant Meristems and Plant Growth</a></div>
+        <div class="topic"><a href="topic4.html">Plant Evolution and Global Diversity</a></div>
+        <div class="topic"><a href="topic5.html">Herbal and Woody Stems</a></div>
+        <div class="topic"><a href="topic6.html">Roots</a></div>
+        <div class="topic"><a href="topic7.html">Buds and Leaves</a></div>
+        <div class="topic"><a href="topic8.html">Flowers and Pollination</a></div>
+        <div class="topic"><a href="topic9.html">Seeds and Fruits</a></div>
+        <div class="topic"><a href="topic10.html">Plant Life Cycle</a></div>
+        <div class="topic"><a href="topic11.html">Monocotyledonous and Dicotyledonous Plants</a></div>
+        <div class="topic"><a href="topic12.html">Cereals</a></div>
+
+    </div>
+
+</main>
 
 <footer>
     © 2026 · Z-AMOR · Martin Jiroušek
